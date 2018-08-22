@@ -17,4 +17,8 @@ export class ApiService {
     return this.http.get(`${this.apiUrl}getAllFolders`).toPromise();
   }
 
+  addFolderOnHigt(folder: Folder) {
+    return this.http.post(`${this.apiUrl}addNewFolder/${folder.name}`, folder);
+  }
+
 }
