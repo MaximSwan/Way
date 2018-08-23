@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule }   from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { FolderComponent } from './components/folder/folder.component';
@@ -15,12 +15,12 @@ import { FolderChildComponent } from './components/folder-child/folder-child.com
     AppComponent,
     FolderComponent,
     FileComponent,
-    FolderChildComponent
+    FolderChildComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    HttpClientModule 
+    HttpClientModule
   ],
   providers: [ApiService, FolderService],
   bootstrap: [AppComponent]

@@ -9,22 +9,24 @@ import { Folder, FileFol } from '../../services/folder/folder.service';
   styleUrls: ['./folder.component.css']
 })
 export class FolderComponent implements OnInit {
+  @Input('myFolder') folderChild;
 
   @Input('folderName') folder;
   constructor(
     private api: ApiService,
   ) { }
-  
-  newFoldIn
+
+  newFoldIn;
   childs = [];
+  folderChilds = [];
   toggle = true;
-  fileIn
+  fileIn;
 
   addFileInFolder(folder) {
-   let file = new FileFol();
-   file.name = this.fileIn;
-   file.idParent = folder._id; 
-   this.api.addNewFile(file, folder)
+    let file = new FileFol();
+    file.name = this.fileIn;
+    file.idParent = folder._id;
+    this.api.addNewFile(file, folder)
   }
 
   deleteCurFolder(folder) {
@@ -41,10 +43,11 @@ export class FolderComponent implements OnInit {
   getChildFold(folder) {
     this.api.getChildsOfFolder(folder)
       .then((res: any) => {
+        this.folderChilds.splice(0, this.folderChilds.length)
         for (let i = 0; i < res.length; i++) {
           const element = res[i];
           JSON.stringify(element);
-          this.childs.push(element);
+          this.folderChilds.push(element);
         }
       })
   }

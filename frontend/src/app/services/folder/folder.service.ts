@@ -5,19 +5,19 @@ import { ApiService } from '../api/api.service';
 export class FolderService {
 
   constructor(
-    private api:ApiService
+    private api: ApiService
   ) { }
 
 }
 
 export class FileFol {
   name: String;
-  idParent:String;
+  idParent: String;
 }
 
 export class Folder {
-  name:String;
-  parentId:String;
+  name: String;
+  parentId: String;
   childs = [];
-  _id:String
+  _id: String
 }

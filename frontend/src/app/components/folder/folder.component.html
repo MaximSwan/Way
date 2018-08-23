@@ -12,6 +12,11 @@
     X
   </button>
 
+  <!-- <app-folder-child [myFolder]="folderChild" *ngFor="let folderChild of folderChilds" > </app-folder-child> -->
+  <app-folder [myFolder]="folderChild" *ngFor="let folderChild of folderChilds" > 
+
+  </app-folder>
+ 
   <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -31,6 +36,5 @@
         </div>
       </div>
     </div>
-  </div>
-    
+  </div>  
 </div>

@@ -26,14 +26,14 @@ export class AppComponent {
           const element = res[i];
           JSON.stringify(element);
           if (element.parentId) {
-            return; 
+            return;
           }
           this.folders.push(element);
         }
       })
 
   }
-  
+
   postNewFolder() {
     let folder = new Folder();
     folder.name = this.folderNameInput;
