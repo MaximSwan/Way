@@ -1,2 +1,8 @@
+<app-folder [folderName]="folder" *ngFor="let folder of folders"> </app-folder>
 
-<app-folder-component *ngFor="let folder of folders" > </app-folder-component>
+<button class="btn" (click)="toggle = !toggle">add</button>
+
+<div *ngIf="!toggle">
+  <input [(ngModel)]="folderNameInput" placeholder="name of the new folder" type="text">
+  <button (click)="postNewFolder()" class="btn">Add</button>
+</div>

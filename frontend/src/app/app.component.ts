@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { ApiService } from './services/api-service/api.service';
+import { ApiService } from './services/api/api.service';
+import { Folder, FolderService } from './services/folder/folder.service';
 
 @Component({
   selector: 'app-root',
@@ -7,29 +8,39 @@ import { ApiService } from './services/api-service/api.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  constructor(
+    private api: ApiService,
+    private folderService: FolderService
+  ) {
+    this.loadFolders();
+  }
 
-  constructor(private api: ApiService) {
-//    this.loadFolders();
+  toggle = true;
+  folderNameInput;
+
+  loadFolders() {
+    this.folders.splice(0, this.folders.length);
+    return this.api.getAllFolders()
+      .then((res: any) => {
+        for (let i = 0; i < res.length; i++) {
+          const element = res[i];
+          JSON.stringify(element);
+          if (element.parentId) {
+            return; 
+          }
+          this.folders.push(element);
+        }
+      })
+
+  }
+  
+  postNewFolder() {
+    let folder = new Folder();
+    folder.name = this.folderNameInput;
+    this.folders.push(folder);
+    this.api.addFolderOnHigt(folder);
   }
 
   folders = [];
-
-  // loadFolders() {
-  //   return this.api.getAllFolders()
-  //     .then((res: any) => {
-  //       res = JSON.stringify(res);
-  //       for (let i = 0; i < res.length; i++) {
-  //         const elemCur = res[i];
-  //         for (let i = + 1; i < res.length; i++) {
-  //           const element = res[i];
-  //           if (elemCur._id == element.parentId) {
-  //             let elementsIns = elemCur.childs;
-  //             elementsIns.push(element);
-  //             this.folders.push(elemCur);
-  //           }
-  //         }
-  //       }
-  //     })
-  // }
 
 }

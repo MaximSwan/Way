@@ -1,24 +1,28 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
-import { AppComponent } from './app.component';
-import { FolderComponentComponent } from './components/folder-component/folder-component.component';
-import { FileComponentComponent } from './components/file-component/file-component.component';
-import { ApiService } from './services/api-service/api.service';
+import { FormsModule }   from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { AppComponent } from './app.component';
+import { FolderComponent } from './components/folder/folder.component';
+import { FileComponent } from './components/file/file.component';
+import { ApiService } from './services/api/api.service';
+import { FolderService } from './services/folder/folder.service';
+import { FolderChildComponent } from './components/folder-child/folder-child.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    FolderComponentComponent,
-    FileComponentComponent
+    FolderComponent,
+    FileComponent,
+    FolderChildComponent
   ],
   imports: [
-    HttpClientModule,
-    BrowserModule
+    BrowserModule,
+    FormsModule,
+    HttpClientModule 
   ],
-  providers: [ApiService],
+  providers: [ApiService, FolderService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
