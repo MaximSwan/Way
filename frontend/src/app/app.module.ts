@@ -7,7 +7,6 @@ import { FolderComponent } from './components/folder/folder.component';
 import { FileComponent } from './components/file/file.component';
 import { ApiService } from './services/api/api.service';
 import { FolderService } from './services/folder/folder.service';
-import { FolderChildComponent } from './components/folder-child/folder-child.component';
 
 
 @NgModule({
@@ -15,7 +14,6 @@ import { FolderChildComponent } from './components/folder-child/folder-child.com
     AppComponent,
     FolderComponent,
     FileComponent,
-    FolderChildComponent,
   ],
   imports: [
     BrowserModule,

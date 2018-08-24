@@ -15,7 +15,8 @@ export class FolderComponent implements OnInit {
   constructor(
     private api: ApiService,
   ) { }
-
+  toggle2 = true;
+  folders = [];
   newFoldIn;
   childs = [];
   folderChilds = [];
@@ -31,6 +32,7 @@ export class FolderComponent implements OnInit {
 
   deleteCurFolder(folder) {
     this.api.deleteOne(folder);
+    this.folders.splice(folder, 1);
   }
 
   addChildFolder(folder) {
@@ -43,12 +45,13 @@ export class FolderComponent implements OnInit {
   getChildFold(folder) {
     this.api.getChildsOfFolder(folder)
       .then((res: any) => {
-        this.folderChilds.splice(0, this.folderChilds.length)
+        this.folders.splice(0, this.folders.length)
         for (let i = 0; i < res.length; i++) {
           const element = res[i];
           JSON.stringify(element);
-          this.folderChilds.push(element);
+          this.folders.push(element);
         }
+        this.toggle2 = !this.toggle2;
       })
   }
 

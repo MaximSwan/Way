@@ -1,22 +1,30 @@
 <div class="col">
-  
-  <button (click)="getChildFold(folder)" type="button" class="btn btn-outline-dark">+</button>
-  <img src="../../../assets/folder-icon.jpg" class="foldImg" alt=""> {{folder.name}}
-  <button class=" btn" (click)="toggle = !toggle" >add</button>
-  <div *ngIf="!toggle" >
-   <p>Добавить новую папку:</p> <input [(ngModel)]="newFoldIn" type="text"> <button class="btn" (click)="addChildFolder(folder)" >Add</button>
-    <p>или, Добавить новый файл:</p> <input [(ngModel)]="fileIn" type="text"> <button (click)="addFileInFolder(folder)" class="btn">Add</button>
-  </div>
-  <!-- Button trigger modal -->
   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
     X
   </button>
+  <img src="../../../assets/folder-icon.jpg" class="foldImg" alt=""> {{folder.name}}
+  <button class=" btn" (click)="toggle = !toggle">add</button>
+  <div *ngIf="!toggle">
+    <p>Добавить новую папку:</p>
+    <input [(ngModel)]="newFoldIn" type="text">
+    <button class="btn" (click)="addChildFolder(folder)">Add</button>
+    <p>или, Добавить новый файл:</p>
+    <input [(ngModel)]="fileIn" type="text">
+    <button (click)="addFileInFolder(folder)" class="btn">Add</button>
+  </div>
+  <!-- Button trigger modal -->
+  <span *ngIf="toggle2">
+    <button (click)="getChildFold(folder)" type="button" class="btn btn-outline-dark">+</button>
+  </span>
+  <span *ngIf="!toggle2">
+    <button (click)="getChildFold(folder)" type="button" class="btn btn-outline-dark">-</button>
 
-  <!-- <app-folder-child [myFolder]="folderChild" *ngFor="let folderChild of folderChilds" > </app-folder-child> -->
-  <app-folder [myFolder]="folderChild" *ngFor="let folderChild of folderChilds" > 
 
-  </app-folder>
- 
+    <!-- <app-folder-child [myFolder]="folderChild" *ngFor="let folderChild of folderChilds" > </app-folder-child> -->
+    <app-folder [folderName]="folder" *ngFor="let folder of folders">
+
+    </app-folder>
+  </span>
   <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -36,5 +44,5 @@
         </div>
       </div>
     </div>
-  </div>  
+  </div>
 </div>
