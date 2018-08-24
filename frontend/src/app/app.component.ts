@@ -35,6 +35,9 @@ export class AppComponent {
   }
 
   postNewFolder() {
+    if(!this.folderNameInput) {
+      return alert('Введите название');
+    }
     let folder = new Folder();
     folder.name = this.folderNameInput;
     this.folders.push(folder);

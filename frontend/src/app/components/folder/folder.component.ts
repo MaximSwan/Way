@@ -26,12 +26,15 @@ export class FolderComponent implements OnInit {
   fileIn;
 
   addFileInFolder(folder) {
+    if(!this.fileIn) {
+      return alert('Введите название');
+    }
     let file = new FileFol();
     file.name = this.fileIn;
     file.idParent = folder._id;
     this.api.addNewFile(file, folder);
     this.toggle = !this.toggle;
-    this.folders.push(file);
+    this.files.push(file);
     this.fileIn = '';
   }
 
@@ -41,6 +44,9 @@ export class FolderComponent implements OnInit {
   }
 
   addChildFolder(folder) {
+    if(!this.newFoldIn) {
+      return alert('Введите название')
+    }
     let newFolder = new Folder();
     newFolder.name = this.newFoldIn;
     newFolder.parentId = folder._id;
@@ -67,6 +73,10 @@ export class FolderComponent implements OnInit {
         } 
         this.toggle2 = !this.toggle2;
       })
+  }
+
+  upElem(ev) {
+    ev.dataTransfer.setData(this.folder)
   }
 
   ngOnInit() {
