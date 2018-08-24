@@ -28,7 +28,8 @@ export class FolderComponent implements OnInit {
     let file = new FileFol();
     file.name = this.fileIn;
     file.idParent = folder._id;
-    this.api.addNewFile(file, folder)
+    this.api.addNewFile(file, folder);
+    this.toggle = !this.toggle;
   }
 
   deleteCurFolder(folder) {
