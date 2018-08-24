@@ -15,6 +15,7 @@ export class FolderComponent implements OnInit {
   constructor(
     private api: ApiService,
   ) { }
+  
   files = [];
   toggle2 = true;
   folders = [];
@@ -30,11 +31,13 @@ export class FolderComponent implements OnInit {
     file.idParent = folder._id;
     this.api.addNewFile(file, folder);
     this.toggle = !this.toggle;
+    this.folders.push(file);
+    this.fileIn = '';
   }
 
   deleteCurFolder(folder) {
     this.api.deleteOne(folder);
-    this.folders.splice(folder, 1);
+    this.folders.splice(folder);
   }
 
   addChildFolder(folder) {
@@ -43,6 +46,8 @@ export class FolderComponent implements OnInit {
     newFolder.parentId = folder._id;
     this.api.addFolder(newFolder);
     this.toggle = !this.toggle;
+    this.folders.push(newFolder);
+    this.newFoldIn = '';
   }
 
   getChildFold(folder) {
@@ -59,7 +64,7 @@ export class FolderComponent implements OnInit {
           else {
             this.folders.push(element);
           }
-        }
+        } 
         this.toggle2 = !this.toggle2;
       })
   }

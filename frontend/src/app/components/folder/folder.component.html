@@ -1,4 +1,4 @@
-<div class="col">
+<div class="col" draggable="true" >
   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
     X
   </button>
@@ -19,12 +19,13 @@
   <span *ngIf="!toggle2">
     <button (click)="getChildFold(folder)" type="button" class="btn btn-outline-dark">-</button>
 
-
-    <!-- <app-folder-child [myFolder]="folderChild" *ngFor="let folderChild of folderChilds" > </app-folder-child> -->
     <app-folder [folderName]="folder" *ngFor="let folder of folders">
 
     </app-folder>
-    <app-file [fileName]="file" *ngFor="let file of files" > </app-file>
+    
+    <app-file [fileName]="file" *ngFor="let file of files">
+      
+    </app-file>
   </span>
   <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
