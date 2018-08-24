@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output } from '@angular/core';
+import { Component, OnInit, Input, Output, } from '@angular/core';
 import { ApiService } from '../../services/api/api.service';
 import { AppComponent } from '../../app.component';
 import { Folder, FileFol } from '../../services/folder/folder.service';
@@ -15,6 +15,7 @@ export class FolderComponent implements OnInit {
   constructor(
     private api: ApiService,
   ) { }
+  files = [];
   toggle2 = true;
   folders = [];
   newFoldIn;
@@ -40,16 +41,23 @@ export class FolderComponent implements OnInit {
     newFolder.name = this.newFoldIn;
     newFolder.parentId = folder._id;
     this.api.addFolder(newFolder);
+    this.toggle = !this.toggle;
   }
 
   getChildFold(folder) {
     this.api.getChildsOfFolder(folder)
       .then((res: any) => {
-        this.folders.splice(0, this.folders.length)
+        this.folders.splice(0, this.folders.length);
+        this.files.splice(0, this.files.length);
         for (let i = 0; i < res.length; i++) {
           const element = res[i];
           JSON.stringify(element);
-          this.folders.push(element);
+          if (element.isType) {
+            this.files.push(element);
+          }
+          else {
+            this.folders.push(element);
+          }
         }
         this.toggle2 = !this.toggle2;
       })

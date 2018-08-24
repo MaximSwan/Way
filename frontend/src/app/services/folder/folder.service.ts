@@ -13,6 +13,7 @@ export class FolderService {
 export class FileFol {
   name: String;
   idParent: String;
+  _id: String;
 }
 
 export class Folder {

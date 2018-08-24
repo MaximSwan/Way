@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { ApiService } from '../../services/api/api.service';
 
 @Component({
   selector: 'app-file',
@@ -7,7 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FileComponent implements OnInit {
 
-  constructor() { }
+  @Input('fileName') file;
+
+  constructor(
+    private api:ApiService
+  ) { }
+
+  delteFile(file) {
+    this.api.deleteFile(file);
+    
+  }
 
   ngOnInit() {
   }

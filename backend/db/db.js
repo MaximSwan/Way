@@ -11,15 +11,9 @@ mongoose.connect('mongodb://localhost/Folders')
 const Folder = mongoose.model('Folder', {
   name: String,
   parentId:String,
-  childs: []
-})
-
-const File = mongoose.model('File', {
-  name:String,
-  idParent:String
+  isType:String,
 })
 
 module.exports = {
   Folder: Folder,
-  File: File,
 }

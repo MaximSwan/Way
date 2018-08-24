@@ -35,4 +35,7 @@ export class ApiService {
     return this.http.post(`${this.apiUrl}addNewFile/${file.name}/${folder._id}`,file).toPromise();
   }
 
+  deleteFile(file:FileFol) {
+    return this.http.delete(`${this.apiUrl}deleteFile/${file._id}`).toPromise();
+  }
 }

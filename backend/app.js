@@ -25,7 +25,7 @@ app.use(function (req, res, next) {
 app.use('/', indexRouter);
 
 app.get('/getChildFolders/:id', async (req, res) => {
-  let folder = await db.Folder.findOne({ _id: req.params.id }); 
+  let folder = await db.Folder.findOne({ _id: req.params.id });
   let childs = await db.Folder.find({ parentId: { $eq: folder._id } });
   if (childs == null) {
     return res.send('Not found');
@@ -77,9 +77,10 @@ app.post('/addNewFolderHight/:nameFolder/', (req, res) => {
 })
 
 app.post('/addNewFile/:fileName/:idParent', async (req, res) => {
-  let file = new db.File();
+  let file = new db.Folder();
   file.name = req.params.fileName;
-  file.idParent = req.params.idParent;
+  file.parentId = req.params.idParent;
+  file.isType = 'file';
   file.save()
     .then(result => {
       res.send(file)
@@ -100,7 +101,7 @@ app.delete('/deleteFolder/:id', (req, res) => {
 })
 
 app.delete('/deleteFile/:id', (req, res) => {
-  db.File.deleteOne({ _id: req.params.id })
+  db.Folder.deleteOne({ _id: req.params.id })
     .then(result => {
       res.send('deleted')
     })
