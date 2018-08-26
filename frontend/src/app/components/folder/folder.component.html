@@ -19,11 +19,11 @@
   <span *ngIf="!toggle2">
     <button (click)="getChildFold(folder)" type="button" class="btn btn-outline-dark">-</button>
 
-    <app-folder [folderName]="folder" *ngFor="let folder of folders">
+    <app-folder (removeFolder)="onRemoveFolder($event)" [folderName]="folder" *ngFor="let folder of folders">
 
     </app-folder>
     
-    <app-file [fileName]="file" *ngFor="let file of files">
+    <app-file (removeFile)="removeCurItem($event)" [fileName]="file" *ngFor="let file of files">
       
     </app-file>
   </span>

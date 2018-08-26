@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ApiService } from '../../services/api/api.service';
 import { AppComponent } from '../../app.component';
 import { Folder, FileFol } from '../../services/folder/folder.service';
@@ -12,6 +12,8 @@ export class FolderComponent implements OnInit {
   @Input('myFolder') folderChild;
 
   @Input('folderName') folder;
+
+  @Output() removeFolder = new EventEmitter<string>();
   constructor(
     private api: ApiService,
   ) { }
@@ -40,7 +42,7 @@ export class FolderComponent implements OnInit {
 
   deleteCurFolder(folder) {
     this.api.deleteOne(folder);
-    this.folders.splice(folder);
+    this.removeFolder.emit(folder);
   }
 
   addChildFolder(folder) {
@@ -77,6 +79,10 @@ export class FolderComponent implements OnInit {
 
   upElem(ev) {
     ev.dataTransfer.setData(this.folder)
+  }
+
+  onRemoveFolder(event) {
+    this.folders.splice(event._id, 1);
   }
 
   ngOnInit() {

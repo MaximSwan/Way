@@ -13,8 +13,9 @@ export class AppComponent {
     private folderService: FolderService
   ) {
     this.loadFolders();
+  
   }
-
+  folders = [];
   toggle = true;
   folderNameInput;
 
@@ -42,8 +43,11 @@ export class AppComponent {
     folder.name = this.folderNameInput;
     this.folders.push(folder);
     this.api.addFolderOnHigt(folder);
+    this.folderNameInput = '';
   }
 
-  folders = [];
+  onRemoveFolder(event) {
+    this.folders.splice(event._id, 1);
+  }
 
 }
