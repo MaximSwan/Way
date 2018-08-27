@@ -27,7 +27,7 @@ export class ApiService {
     return this.http.get(`${this.apiUrl}getChildFolders/${folder._id}`).toPromise();
   }
 
-  deleteOne(folder: Folder) {
+  deleteOneFolder(folder: Folder) {
     return this.http.delete(`${this.apiUrl}deleteFolder/${folder._id}`).toPromise();
   }
  

@@ -20,5 +20,6 @@ export class Folder {
   name: String;
   parentId: String;
   childs = [];
-  _id: String
+  _id: String;
+  childStatus:boolean;
 }

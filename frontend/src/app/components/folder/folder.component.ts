@@ -17,7 +17,7 @@ export class FolderComponent implements OnInit {
   constructor(
     private api: ApiService,
   ) { }
-  
+
   files = [];
   toggle2 = true;
   folders = [];
@@ -26,9 +26,10 @@ export class FolderComponent implements OnInit {
   folderChilds = [];
   toggle = true;
   fileIn;
+  toggleEmpty = true;
 
   addFileInFolder(folder) {
-    if(!this.fileIn) {
+    if (!this.fileIn) {
       return alert('Введите название');
     }
     let file = new FileFol();
@@ -41,12 +42,12 @@ export class FolderComponent implements OnInit {
   }
 
   deleteCurFolder(folder) {
-    this.api.deleteOne(folder);
+    this.api.deleteOneFolder(folder);
     this.removeFolder.emit(folder);
   }
 
   addChildFolder(folder) {
-    if(!this.newFoldIn) {
+    if (!this.newFoldIn) {
       return alert('Введите название')
     }
     let newFolder = new Folder();
@@ -61,6 +62,9 @@ export class FolderComponent implements OnInit {
   getChildFold(folder) {
     this.api.getChildsOfFolder(folder)
       .then((res: any) => {
+        if (res.length == 0) {
+          this.toggleEmpty = !this.toggleEmpty;
+        }
         this.folders.splice(0, this.folders.length);
         this.files.splice(0, this.files.length);
         for (let i = 0; i < res.length; i++) {
@@ -68,17 +72,12 @@ export class FolderComponent implements OnInit {
           JSON.stringify(element);
           if (element.isType) {
             this.files.push(element);
-          }
-          else {
+          } else {
             this.folders.push(element);
           }
-        } 
+        }
         this.toggle2 = !this.toggle2;
       })
-  }
-
-  upElem(ev) {
-    ev.dataTransfer.setData(this.folder)
   }
 
   onRemoveFolder(event) {
