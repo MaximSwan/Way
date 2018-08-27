@@ -30,12 +30,17 @@ export class ApiService {
   deleteOneFolder(folder: Folder) {
     return this.http.delete(`${this.apiUrl}deleteFolder/${folder._id}`).toPromise();
   }
- 
-  addNewFile(file:FileFol, folder:Folder) {
-    return this.http.post(`${this.apiUrl}addNewFile/${file.name}/${folder._id}`,file).toPromise();
+
+  addNewFile(file: FileFol, folder: Folder) {
+    return this.http.post(`${this.apiUrl}addNewFile/${file.name}/${folder._id}`, file).toPromise();
   }
 
-  deleteFile(file:FileFol) {
+  deleteFile(file: FileFol) {
     return this.http.delete(`${this.apiUrl}deleteFile/${file._id}`).toPromise();
   }
-}
+
+  updateFolders() {
+    return this.http.put(`${this.apiUrl}/updateCorFolders`, '').toPromise();
+  }
+
+} 

@@ -14,6 +14,7 @@ export class FolderComponent implements OnInit {
   @Input('folderName') folder;
 
   @Output() removeFolder = new EventEmitter<string>();
+
   constructor(
     private api: ApiService,
   ) { }

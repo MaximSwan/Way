@@ -13,7 +13,7 @@ export class AppComponent {
     private folderService: FolderService
   ) {
     this.loadFolders();
-  
+
   }
   folders = [];
   toggle = true;
@@ -36,7 +36,7 @@ export class AppComponent {
   }
 
   postNewFolder() {
-    if(!this.folderNameInput) {
+    if (!this.folderNameInput) {
       return alert('Введите название');
     }
     let folder = new Folder();

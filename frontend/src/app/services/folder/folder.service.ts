@@ -19,7 +19,5 @@ export class FileFol {
 export class Folder {
   name: String;
   parentId: String;
-  childs = [];
   _id: String;
-  childStatus:boolean;
 }

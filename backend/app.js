@@ -24,6 +24,11 @@ app.use(function (req, res, next) {
 
 app.use('/', indexRouter);
 
+app.put('/updateCorFolders', async (req, res) => {
+  let folders = await db.Folder.update();
+  res.send(folders);
+})
+
 app.get('/getChildFolders/:id', async (req, res) => {
   let folder = await db.Folder.findOne({ _id: req.params.id });
   let childs = await db.Folder.find({ parentId: { $eq: folder._id } });
@@ -34,19 +39,6 @@ app.get('/getAllFolders', async (req, res) => {
   let folders = await db.Folder.find({});
   res.send(folders);
 })
-
-// app.post('/addNewFolder', (req, res) => {
-//   let folder = new db.Folder();
-//   folder.name = req.body.name;
-//   folder.parentId = req.body.parentId;
-//   folder.save()
-//     .then(result => {
-//       res.send(folder)
-//     })
-//     .catch(err => {
-//       console.error(err);
-//     });
-// })
 
 app.post('/addNewFolder/:nameFolder/:parentId', (req, res) => {
   let folder = new db.Folder();
