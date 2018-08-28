@@ -47,7 +47,7 @@ export class AppComponent {
   }
 
   onRemoveFolder(event) {
-    this.folders.splice(event._id, 1);
+    this.folders.splice(event, 1);
   }
 
 }

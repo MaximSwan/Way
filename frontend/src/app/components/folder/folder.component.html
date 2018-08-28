@@ -1,5 +1,5 @@
 <div class="col" draggable="true" ondragstart="drag()">
-  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  <button (click)="deleteCurFolder(folder)" type="button" class="btn btn-primary" >
     X
   </button>
   <img src="../../../assets/folder-icon.jpg" class="foldImg" alt=""> {{folder.name}}
@@ -31,24 +31,4 @@
 
     </app-file>
   </span>
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Вы уверены в удаление?</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          Если вы удалите папку,то и удалите все в ней находящиеся
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть сообщение</button>
-          <button (click)="deleteCurFolder(folder)" type="button" class="btn btn-primary" data-dismiss="modal">Удалить папку</button>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>

@@ -33,6 +33,12 @@ export class FolderComponent implements OnInit {
   console.log('fawefj');
   }
 
+  deleteCurFolder(folder) {
+    console.log(folder);
+    this.api.deleteOneFolder(folder);
+    this.removeFolder.emit(folder);
+  }
+
   addFileInFolder(folder) {
     if (!this.fileIn) {
       return alert('Введите название');
@@ -44,11 +50,6 @@ export class FolderComponent implements OnInit {
     this.toggle = !this.toggle;
     this.files.push(file);
     this.fileIn = '';
-  }
-
-  deleteCurFolder(folder) {
-    this.api.deleteOneFolder(folder);
-    this.removeFolder.emit(folder);
   }
 
   addChildFolder(folder) {
