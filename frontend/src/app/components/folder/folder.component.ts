@@ -72,7 +72,9 @@ export class FolderComponent implements OnInit {
         this.folders.push(newFolder);
         this.newFoldIn = '';
       })
-
+      .catch(err => {
+        console.error(err);
+      })
   }
 
   getChildFold(folder) {

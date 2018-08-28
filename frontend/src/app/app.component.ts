@@ -32,7 +32,9 @@ export class AppComponent {
           this.folders.push(element);
         }
       })
-
+      .catch(err => {
+        console.error(err);
+      })
   }
 
   postNewFolder() {
@@ -52,6 +54,9 @@ export class AppComponent {
         this.folders.push(folder);
         this.api.addFolderOnHigt(folder);
         this.folderNameInput = '';
+      })
+      .catch(err => {
+        console.error(err);
       })
   }
 

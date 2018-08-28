@@ -58,7 +58,7 @@ app.post('/addNewFolderHight/:nameFolder/', (req, res) => {
   folder.name = req.params.nameFolder;
   folder.save()
     .then(result => {
-      res.send(folder)
+      res.send(folder);
     })
     .catch(err => {
       console.error(err);
