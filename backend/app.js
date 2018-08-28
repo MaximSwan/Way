@@ -29,9 +29,9 @@ app.put('/updateCorFolder/:id', async (req, res) => {
   res.send(folder);
 })
 
-app.get('/getChildFolders/:id', async (req, res) => {
-  let folder = await db.Folder.findOne({ _id: req.params.id });
-  let childs = await db.Folder.find({ parentId: { $eq: folder._id } });
+app.get('/getChildFoldersOnName/:name', async (req, res) => {
+  let folder = await db.Folder.findOne({ name: req.params.name });
+  let childs = await db.Folder.find({ parentName: { $eq: folder.name } });
   res.send(childs);
 })
 
@@ -40,10 +40,10 @@ app.get('/getAllFolders', async (req, res) => {
   res.send(folders);
 })
 
-app.post('/addNewFolder/:nameFolder/:parentId', (req, res) => {
+app.post('/addNewFolder/:nameFolder/:parentName', (req, res) => {
   let folder = new db.Folder();
   folder.name = req.params.nameFolder;
-  folder.parentId = req.params.parentId;
+  folder.parentName = req.params.parentName;
   folder.save()
     .then(result => {
       res.send(folder)
@@ -65,10 +65,10 @@ app.post('/addNewFolderHight/:nameFolder/', (req, res) => {
     });
 })
 
-app.post('/addNewFile/:fileName/:idParent', async (req, res) => {
+app.post('/addNewFile/:fileName/:parentName', async (req, res) => {
   let file = new db.Folder();
   file.name = req.params.fileName;
-  file.parentId = req.params.idParent;
+  file.parentName = req.params.parentName;
   file.isType = 'file';
   file.save()
     .then(result => {
@@ -79,19 +79,19 @@ app.post('/addNewFile/:fileName/:idParent', async (req, res) => {
     })
 });
 
-app.delete('/deleteFolder/:id', async (req, res) => {
+app.delete('/deleteFolder/:name', async (req, res) => {
   try {
-    let folder = await db.Folder.deleteOne({ _id: req.params.id });
-    db.Folder.remove({ parentId: req.params.id });
+    let folder = await db.Folder.deleteOne({ name: req.params.name });
+    db.Folder.remove({ parentName: req.params.name });
   } catch (err) {
     console.error(err);
   }
   res.send(folder);
 })
 
-app.delete('/deleteFile/:id', async (req, res) => {
+app.delete('/deleteFile/:name', async (req, res) => {
   try {
-    let file = await db.Folder.deleteOne({ _id: req.params.id });
+    let file = await db.Folder.deleteOne({ name: req.params.name });
   } catch (err) {
     console.error(err);
   }

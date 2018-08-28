@@ -26,7 +26,7 @@ export class AppComponent {
         for (let i = 0; i < res.length; i++) {
           const element = res[i];
           JSON.stringify(element);
-          if (element.parentId) {
+          if (element.parentName) {
             return;
           }
           this.folders.push(element);
@@ -39,11 +39,20 @@ export class AppComponent {
     if (!this.folderNameInput) {
       return alert('Введите название');
     }
-    let folder = new Folder();
-    folder.name = this.folderNameInput;
-    this.folders.push(folder);
-    this.api.addFolderOnHigt(folder);
-    this.folderNameInput = '';
+    this.api.getAllFolders()
+      .then((res: any) => {
+        for (let i = 0; i < res.length; i++) {
+          const elem = res[i];
+          if (elem.name == this.folderNameInput) {
+            return alert('Такая папка уже существует')
+          }
+        }
+        let folder = new Folder();
+        folder.name = this.folderNameInput;
+        this.folders.push(folder);
+        this.api.addFolderOnHigt(folder);
+        this.folderNameInput = '';
+      })
   }
 
   onRemoveFolder(event) {

@@ -12,12 +12,12 @@ export class FolderService {
 
 export class FileFol {
   name: String;
-  idParent: String;
+  parentName: String;
   _id: String;
 }
 
 export class Folder {
   name: String;
-  parentId: String;
+  parentName: String;
   _id: String;
 }

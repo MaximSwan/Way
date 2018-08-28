@@ -10,7 +10,7 @@ mongoose.connect('mongodb://localhost/Folders')
 
 const Folder = mongoose.model('Folder', {
   name: String,
-  parentId:String,
+  parentName:String,
   isType:String,
 })
 

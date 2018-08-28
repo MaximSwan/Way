@@ -30,7 +30,7 @@ export class FolderComponent implements OnInit {
   toggleEmpty = true;
 
   drag() {
-  console.log('fawefj');
+    console.log('fawefj');
   }
 
   deleteCurFolder(folder) {
@@ -45,7 +45,7 @@ export class FolderComponent implements OnInit {
     }
     let file = new FileFol();
     file.name = this.fileIn;
-    file.idParent = folder._id;
+    file.parentName = folder.name;
     this.api.addNewFile(file, folder);
     this.toggle = !this.toggle;
     this.files.push(file);
@@ -56,17 +56,27 @@ export class FolderComponent implements OnInit {
     if (!this.newFoldIn) {
       return alert('Введите название')
     }
-    let newFolder = new Folder();
-    newFolder.name = this.newFoldIn;
-    newFolder.parentId = folder._id;
-    this.api.addFolder(newFolder);
-    this.toggle = !this.toggle;
-    this.folders.push(newFolder);
-    this.newFoldIn = '';
+    this.api.getAllFolders()
+      .then((res: any) => {
+        for (let i = 0; i < res.length; i++) {
+          const elem = res[i];
+          if (elem.name == this.newFoldIn) {
+            return alert('Такая папка уже существует');
+          }
+        }
+        let newFolder = new Folder();
+        newFolder.name = this.newFoldIn;
+        newFolder.parentName = folder.name;
+        this.api.addFolder(newFolder);
+        this.toggle = !this.toggle;
+        this.folders.push(newFolder);
+        this.newFoldIn = '';
+      })
+
   }
 
   getChildFold(folder) {
-    this.api.getChildsOfFolder(folder)
+    this.api.getChildsOnName(folder)
       .then((res: any) => {
         if (res.length == 0) {
           this.toggleEmpty = !this.toggleEmpty;

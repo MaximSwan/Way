@@ -12,7 +12,7 @@ export class ApiService {
   apiUrl: string = 'http://localhost:3000/'
 
   addFolder(folder: Folder) {
-    return this.http.post(`${this.apiUrl}addNewFolder/${folder.name}/${folder.parentId}`, folder).toPromise();
+    return this.http.post(`${this.apiUrl}addNewFolder/${folder.name}/${folder.parentName}`, folder).toPromise();
   }
 
   getAllFolders() {
@@ -23,24 +23,24 @@ export class ApiService {
     return this.http.post(`${this.apiUrl}addNewFolderHight/${folder.name}/`, folder).toPromise();
   }
 
-  getChildsOfFolder(folder: Folder) {
-    return this.http.get(`${this.apiUrl}getChildFolders/${folder._id}`).toPromise();
-  }
-
   deleteOneFolder(folder: Folder) {
-    return this.http.delete(`${this.apiUrl}deleteFolder/${folder._id}`).toPromise();
+    return this.http.delete(`${this.apiUrl}deleteFolder/${folder.name}`).toPromise();
   }
 
   addNewFile(file: FileFol, folder: Folder) {
-    return this.http.post(`${this.apiUrl}addNewFile/${file.name}/${folder._id}`, file).toPromise();
+    return this.http.post(`${this.apiUrl}addNewFile/${file.name}/${folder.name}`, file).toPromise();
   }
 
   deleteFile(file: FileFol) {
-    return this.http.delete(`${this.apiUrl}deleteFile/${file._id}`).toPromise();
+    return this.http.delete(`${this.apiUrl}deleteFile/${file.name}`).toPromise();
   }
 
-  updateFolders(folder:Folder) {
-    return this.http.put(`${this.apiUrl}/updateCorFolder`, folder).toPromise();
+  updateFolders(folder: Folder) {
+    return this.http.put(`${this.apiUrl}updateCorFolder`, folder).toPromise();
+  }
+
+  getChildsOnName(folder: Folder) {
+    return this.http.get(`${this.apiUrl}getChildFoldersOnName/${folder.name}`).toPromise();
   }
 
 } 
