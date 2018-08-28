@@ -91,7 +91,7 @@ app.delete('/deleteFolder/:name', async (req, res) => {
 
 app.delete('/deleteFile/:name', async (req, res) => {
   try {
-    let file = await db.Folder.deleteOne({ name: req.params.name });
+    let file = await db.Folder.deleteOne({ name: req.params.name , isType:'file'});
   } catch (err) {
     console.error(err);
   }

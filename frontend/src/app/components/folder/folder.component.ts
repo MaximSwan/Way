@@ -43,13 +43,25 @@ export class FolderComponent implements OnInit {
     if (!this.fileIn) {
       return alert('Введите название');
     }
-    let file = new FileFol();
-    file.name = this.fileIn;
-    file.parentName = folder.name;
-    this.api.addNewFile(file, folder);
-    this.toggle = !this.toggle;
-    this.files.push(file);
-    this.fileIn = '';
+    this.api.getAllFolders()
+      .then((res: any) => {
+        for (let i = 0; i < res.length; i++) {
+          const elem = res[i];
+          if (elem.isType) {
+            let fileCur = elem;
+            if (this.fileIn == fileCur.name) {
+              return alert('Такой файл уже есть');
+            }
+          }
+        }
+        let file = new FileFol();
+        file.name = this.fileIn;
+        file.parentName = folder.name;
+        this.api.addNewFile(file, folder);
+        this.toggle = !this.toggle;
+        this.files.push(file);
+        this.fileIn = '';
+      })
   }
 
   addChildFolder(folder) {
