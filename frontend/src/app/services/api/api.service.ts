@@ -39,8 +39,8 @@ export class ApiService {
     return this.http.delete(`${this.apiUrl}deleteFile/${file._id}`).toPromise();
   }
 
-  updateFolders() {
-    return this.http.put(`${this.apiUrl}/updateCorFolders`, '').toPromise();
+  updateFolders(folder:Folder) {
+    return this.http.put(`${this.apiUrl}/updateCorFolder`, folder).toPromise();
   }
 
 } 

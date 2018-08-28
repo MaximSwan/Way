@@ -29,6 +29,10 @@ export class FolderComponent implements OnInit {
   fileIn;
   toggleEmpty = true;
 
+  drag() {
+  console.log('fawefj');
+  }
+
   addFileInFolder(folder) {
     if (!this.fileIn) {
       return alert('Введите название');

@@ -24,9 +24,9 @@ app.use(function (req, res, next) {
 
 app.use('/', indexRouter);
 
-app.put('/updateCorFolders', async (req, res) => {
-  let folders = await db.Folder.update();
-  res.send(folders);
+app.put('/updateCorFolder/:id', async (req, res) => {
+  let folder = await db.Folder.findByIdAndUpdate(req.params.id);
+  res.send(folder);
 })
 
 app.get('/getChildFolders/:id', async (req, res) => {
