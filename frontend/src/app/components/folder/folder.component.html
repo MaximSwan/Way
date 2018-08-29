@@ -1,4 +1,4 @@
-<div class="col" draggable="true" ondragstart="drag()" >
+<div class="col" draggable droppable (onDrop)="folderOnDrop($event)" (onDrag)="folderOnDrag($event)" [dragData]="folder">
   <button (click)="deleteCurFolder(folder)" type="button" class="btn btn-primary">
     X
   </button>
@@ -23,7 +23,8 @@
   <span *ngIf="!togglePlsMns">
     <button (click)="getChildFold(folder)" type="button" class="btn btn-outline-dark">-</button>
 
-    <app-folder (removeFolder)="onRemoveFolder($event)" [folderName]="folder" *ngFor="let folder of folders">
+    <app-folder (deleteDropedFolder)="removeThisFolder($event)" draggable droppable (onDrop)="folderOnDrop($event)" (onDrag)="folderOnDrag($event)"
+      [dragData]="folder" (removeFolder)="onRemoveFolder($event)" [folderName]="folder" *ngFor="let folder of folders">
 
     </app-folder>
 
@@ -31,7 +32,8 @@
       <p>Папка пуста</p>
     </div>
 
-    <app-file (removeFile)="removeCurItem($event)" [fileName]="file" *ngFor="let file of files">
+    <app-file [toggleContr]="toggleEmpty" (addDropFile)="addFileDrop($event)" (removeFile)="removeCurItem($event)" [fileName]="file"
+      *ngFor="let file of files">
 
     </app-file>
   </span>

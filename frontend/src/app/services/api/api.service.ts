@@ -35,7 +35,7 @@ export class ApiService {
     return this.http.delete(`${this.apiUrl}deleteFile/${file.name}`).toPromise();
   }
 
-  renameParent(folder:Folder, parent:Folder) {
+  renameParent(folder: Folder, parent: Folder) {
     return this.http.post(`${this.apiUrl}folderRenameParent/${folder.name}/${parent.name}`, folder).toPromise();
   }
 

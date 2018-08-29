@@ -1,5 +1,5 @@
-<div class="col">
-<button (click)="delteFile(file)" type="button" class="btn-primary ">
+<div class="col" draggable droppable (onDrop)="fileOnDrop($event)" (onDrag)="fileOnDrag($event)" [dragData]="file">
+  <button (click)="delteFile(file)" type="button" class="btn-primary ">
     X
   </button>
   <img id="file" src="../../../assets/note.png" alt=""> {{file.name}}

@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ApiService } from '../../services/api/api.service';
 import { AppComponent } from '../../app.component';
 import { Folder, FileFol } from '../../services/folder/folder.service';
+import { EventListener } from '@angular/core/src/debug/debug_node';
 
 @Component({
   selector: 'app-folder',
@@ -9,11 +10,14 @@ import { Folder, FileFol } from '../../services/folder/folder.service';
   styleUrls: ['./folder.component.css']
 })
 export class FolderComponent implements OnInit {
+
   @Input('myFolder') folderChild;
 
   @Input('folderName') folder;
 
   @Output() removeFolder = new EventEmitter<string>();
+
+  @Output() deleteDropedFolder = new EventEmitter<string>();
 
   constructor(
     private api: ApiService,
@@ -30,8 +34,25 @@ export class FolderComponent implements OnInit {
   toggleEmpty = true;
   toggleCheked = true;
 
-  drag() {
-    console.log('fawefj');
+  folderOnDrop(event: any) {
+    if (event.dragData.name == this.folder.name) {
+      return;
+    }
+    if (event.dragData.parentName == this.folder.name) {
+      return;
+    }
+    this.api.renameParent(event.dragData, this.folder);
+    this.folders.push(event.dragData);
+    this.deleteDropedFolder.emit(event.dragData);
+    this.toggleEmpty = true;
+  }
+
+  folderOnDrag(event) {
+    this.deleteDropedFolder.emit(this.folder);
+  }
+
+  removeThisFolder(event) {
+    this.folders.splice(this.folders.indexOf(event), 1);
   }
 
   deleteCurFolder(folder) {
@@ -73,6 +94,7 @@ export class FolderComponent implements OnInit {
         this.toggleAdd = !this.toggleAdd;
         this.files.push(file);
         this.fileIn = '';
+        this.toggleEmpty = true;
       })
   }
 
@@ -122,6 +144,11 @@ export class FolderComponent implements OnInit {
         this.togglePlsMns = !this.togglePlsMns;
       })
   }
+
+  addFileDrop(event) {
+    console.log(event);
+    this.files.push(event);
+  } 
 
   onRemoveFolder(event) {
     this.folders.splice(this.folders.indexOf(event), 1);

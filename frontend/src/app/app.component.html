@@ -1,4 +1,5 @@
-<app-folder (removeFolder)="onRemoveFolder($event)" [folderName]="folder" *ngFor="let folder of folders"> </app-folder>
+<app-folder (removeFolder)="onRemoveFolder($event)" [folderName]="folder"
+  *ngFor="let folder of folders"> </app-folder>
 
 <button class="btn" (click)="toggle = !toggle">add</button>
 

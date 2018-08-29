@@ -7,6 +7,9 @@ import { FolderComponent } from './components/folder/folder.component';
 import { FileComponent } from './components/file/file.component';
 import { ApiService } from './services/api/api.service';
 import { FolderService } from './services/folder/folder.service';
+import { NgDragDropModule } from 'ng-drag-drop';
+
+ 
 
 
 @NgModule({
@@ -18,7 +21,8 @@ import { FolderService } from './services/folder/folder.service';
   imports: [
     BrowserModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgDragDropModule.forRoot()
   ],
   providers: [ApiService, FolderService],
   bootstrap: [AppComponent]
