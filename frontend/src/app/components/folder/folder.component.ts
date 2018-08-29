@@ -20,12 +20,12 @@ export class FolderComponent implements OnInit {
   ) { }
 
   files = [];
-  toggle2 = true;
+  togglePlsMns = true;
   folders = [];
   newFoldIn;
   childs = [];
   folderChilds = [];
-  toggle = true;
+  toggleAdd = true;
   fileIn;
   toggleEmpty = true;
   toggleCheked = true;
@@ -70,7 +70,7 @@ export class FolderComponent implements OnInit {
         file.name = this.fileIn;
         file.parentName = folder.name;
         this.api.addNewFile(file, folder);
-        this.toggle = !this.toggle;
+        this.toggleAdd = !this.toggleAdd;
         this.files.push(file);
         this.fileIn = '';
       })
@@ -92,7 +92,7 @@ export class FolderComponent implements OnInit {
         newFolder.name = this.newFoldIn;
         newFolder.parentName = folder.name;
         this.api.addFolder(newFolder);
-        this.toggle = !this.toggle;
+        this.toggleAdd = !this.toggleAdd;
         this.folders.push(newFolder);
         this.newFoldIn = '';
         this.toggleEmpty = true;
@@ -119,7 +119,7 @@ export class FolderComponent implements OnInit {
             this.folders.push(element);
           }
         }
-        this.toggle2 = !this.toggle2;
+        this.togglePlsMns = !this.togglePlsMns;
       })
   }
 
