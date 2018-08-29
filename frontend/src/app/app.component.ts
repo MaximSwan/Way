@@ -46,7 +46,7 @@ export class AppComponent {
         for (let i = 0; i < res.length; i++) {
           const elem = res[i];
           if (elem.name == this.folderNameInput) {
-            return alert('Такая папка уже существует')
+            return alert('Такая папка уже существует');
           }
         }
         let folder = new Folder();
@@ -62,7 +62,7 @@ export class AppComponent {
 
   onRemoveFolder(event) {
     console.log(event);
-    this.folders.splice(this.folders.indexOf(event),  1);
+    this.folders.splice(this.folders.indexOf(event), 1);
   }
 
 }

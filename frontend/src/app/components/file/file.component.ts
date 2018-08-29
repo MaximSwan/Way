@@ -13,8 +13,8 @@ export class FileComponent implements OnInit {
   @Output() removeFile = new EventEmitter<string>();
 
   constructor(
-    private api:ApiService,
-    private foldComp:FolderComponent
+    private api: ApiService,
+    private foldComp: FolderComponent
   ) { }
 
   delteFile(file) {

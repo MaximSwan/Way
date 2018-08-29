@@ -28,12 +28,24 @@ export class FolderComponent implements OnInit {
   toggle = true;
   fileIn;
   toggleEmpty = true;
+  toggleCheked = true;
 
   drag() {
     console.log('fawefj');
   }
 
   deleteCurFolder(folder) {
+    this.api.getChildsOnName(folder)
+      .then((res: any) => {
+        if (res.length != 0) {
+          return this.toggleCheked = !this.toggleCheked;
+        }
+        this.api.deleteOneFolder(folder);
+        this.removeFolder.emit(folder);
+      })
+  }
+
+  deleteCurFolderEmtpy(folder) {
     console.log(folder);
     this.api.deleteOneFolder(folder);
     this.removeFolder.emit(folder);
@@ -73,7 +85,7 @@ export class FolderComponent implements OnInit {
         for (let i = 0; i < res.length; i++) {
           const elem = res[i];
           if (elem.name == this.newFoldIn) {
-            return alert('Такая папка уже существует');
+            return alert('Такая папка уже существует,введите другое назание');
           }
         }
         let newFolder = new Folder();
@@ -83,6 +95,7 @@ export class FolderComponent implements OnInit {
         this.toggle = !this.toggle;
         this.folders.push(newFolder);
         this.newFoldIn = '';
+        this.toggleEmpty = true;
       })
       .catch(err => {
         console.error(err);
@@ -111,7 +124,7 @@ export class FolderComponent implements OnInit {
   }
 
   onRemoveFolder(event) {
-    this.folders.splice( this.folders.indexOf(event), 1);
+    this.folders.splice(this.folders.indexOf(event), 1);
   }
 
   removeCurItem(event) {
