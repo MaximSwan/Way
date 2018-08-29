@@ -61,7 +61,8 @@ export class AppComponent {
   }
 
   onRemoveFolder(event) {
-    this.folders.splice(event, 1);
+    console.log(event);
+    this.folders.splice(this.folders.indexOf(event),  1);
   }
 
 }

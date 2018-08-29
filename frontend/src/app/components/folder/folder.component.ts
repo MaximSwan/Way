@@ -111,7 +111,11 @@ export class FolderComponent implements OnInit {
   }
 
   onRemoveFolder(event) {
-    this.folders.splice(event._id, 1);
+    this.folders.splice( this.folders.indexOf(event), 1);
+  }
+
+  removeCurItem(event) {
+    this.files.splice(this.files.indexOf(event), 1);
   }
 
   ngOnInit() {

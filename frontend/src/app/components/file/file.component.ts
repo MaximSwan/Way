@@ -10,6 +10,7 @@ import { FolderComponent } from '../folder/folder.component';
 export class FileComponent implements OnInit {
 
   @Input('fileName') file;
+  @Output() removeFile = new EventEmitter<string>();
 
   constructor(
     private api:ApiService,
@@ -18,7 +19,7 @@ export class FileComponent implements OnInit {
 
   delteFile(file) {
     this.api.deleteFile(file);
-    this.foldComp.files.splice(file, 1);
+    this.removeFile.emit(file);
   }
 
   ngOnInit() {
