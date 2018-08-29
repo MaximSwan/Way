@@ -43,7 +43,6 @@ export class FolderComponent implements OnInit {
     }
     this.api.renameParent(event.dragData, this.folder);
     this.folders.push(event.dragData);
-    this.deleteDropedFolder.emit(event.dragData);
     this.toggleEmpty = true;
   }
 
@@ -148,7 +147,7 @@ export class FolderComponent implements OnInit {
   addFileDrop(event) {
     console.log(event);
     this.files.push(event);
-  } 
+  }
 
   onRemoveFolder(event) {
     this.folders.splice(this.folders.indexOf(event), 1);

@@ -28,9 +28,9 @@ app.post('/folderRenameParent/:folderName/:newParentName', async (req, res) => {
   let folder = await db.Folder.findOne({ name: req.params.folderName });
   folder.parentName = req.params.newParentName;
   folder.save()
-  .then(folder => {
-    res.send(folder);
-  } )
+    .then(folder => {
+      res.send(folder);
+    })
 })
 
 app.get('/getChildFoldersOnName/:name', async (req, res) => {

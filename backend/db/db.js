@@ -10,8 +10,8 @@ mongoose.connect('mongodb://localhost/Folders')
 
 const Folder = mongoose.model('Folder', {
   name: String,
-  parentName:String,
-  isType:String,
+  parentName: String,
+  isType: String,
 })
 
 module.exports = {

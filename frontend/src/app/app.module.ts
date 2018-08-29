@@ -9,9 +9,6 @@ import { ApiService } from './services/api/api.service';
 import { FolderService } from './services/folder/folder.service';
 import { NgDragDropModule } from 'ng-drag-drop';
 
- 
-
-
 @NgModule({
   declarations: [
     AppComponent,

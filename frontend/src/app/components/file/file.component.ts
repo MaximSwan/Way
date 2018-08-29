@@ -39,7 +39,7 @@ export class FileComponent implements OnInit {
     this.toggleEmpty = true;
   }
 
-  fileOnDrag(event) { 
+  fileOnDrag(event) {
     this.removeFile.emit(this.file);
   }
 
