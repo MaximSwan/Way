@@ -45,7 +45,7 @@ router.post('/folder', (req, res) => {
 })
 
 router.post('/file', async (req, res) => {
-  let file = new db.Folder();
+  let file = new db.Folder(); 
   file.name = req.body.name;
   file.parentName = req.parent.name;
   file.isType = 'file';
@@ -68,18 +68,18 @@ router.delete('/folder/:name', async (req, res) => {
   res.send(folder);
 })
 
-router.delete('/file/:name', async (req, res) => {
+router.delete('/file', async (req, res) => {
   try {
-    let file = await db.Folder.deleteOne({ name: req.params.name, isType: 'file' });
+    let file = await db.Folder.deleteOne({ name: req.body.name, isType: 'file' });
   } catch (err) {
     console.error(err);
   }
   res.send(file);
 })
 
-router.put('/folder/:name', async (req, res) => {
-  let folder = await db.Folder.findOne({ name: req.params.name });
-  folder.parentName = req.body.name ;
+router.put('/folder', async (req, res) => {
+  let folder = await db.Folder.findOne({ name: req.body[1].name });
+  folder.parentName = req.body[0].name;
   folder.save()
     .then(folder => {
       res.send(folder);

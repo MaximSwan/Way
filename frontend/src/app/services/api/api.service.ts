@@ -27,16 +27,16 @@ export class ApiService {
     return this.http.delete(`${this.apiUrl}folder/${folder.name}`).toPromise();
   }
 
-  addNewFile(file) {
+  addNewFile(file) {  
     return this.http.post(`${this.apiUrl}file`, file).toPromise();
   }
 
   deleteFile(file) {
-    return this.http.delete(`${this.apiUrl}file/${file.name}`).toPromise();
+    return this.http.delete(`${this.apiUrl}file`, file).toPromise();
   }
 
   renameParent(folder: Folder, parent: Folder) {
-    return this.http.put(`${this.apiUrl}folder/${folder.name}`, parent).toPromise();
+    return this.http.put(`${this.apiUrl}folder`, [parent, folder]).toPromise();
   }
 
   getChildsOnName(folder: Folder) {
