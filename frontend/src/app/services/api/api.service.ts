@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpXsrfTokenExtractor, HttpClientModule } from '@angular/common/http';
-import { Folder, FolderService, FileFol } from '../folder/folder.service';
+import { Folder, FolderService } from '../folder/folder.service';
 
 @Injectable()
 export class ApiService {
@@ -27,11 +27,11 @@ export class ApiService {
     return this.http.delete(`${this.apiUrl}deleteFolder/${folder.name}`).toPromise();
   }
 
-  addNewFile(file: FileFol, folder: Folder) {
+  addNewFile(file, folder: Folder) {
     return this.http.post(`${this.apiUrl}addNewFile/${file.name}/${folder.name}`, file).toPromise();
   }
 
-  deleteFile(file: FileFol) {
+  deleteFile(file) {
     return this.http.delete(`${this.apiUrl}deleteFile/${file.name}`).toPromise();
   }
 

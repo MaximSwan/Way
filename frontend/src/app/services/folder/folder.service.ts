@@ -10,14 +10,9 @@ export class FolderService {
 
 }
 
-export class FileFol {
-  name: String;
-  parentName: String;
-  _id: String;
-}
-
 export class Folder {
   name: String;
   parentName: String;
   _id: String;
+  isType: String;
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ApiService } from '../../services/api/api.service';
 import { AppComponent } from '../../app.component';
-import { Folder, FileFol } from '../../services/folder/folder.service';
+import { Folder } from '../../services/folder/folder.service';
 import { EventListener } from '@angular/core/src/debug/debug_node';
 
 @Component({
@@ -81,9 +81,10 @@ export class FolderComponent implements OnInit {
         if (this.fileIn == fileCur.name) return alert('Такой файл уже есть');
       }
     }
-    let file = new FileFol();
+    let file = new Folder();
     file.name = this.fileIn;
     file.parentName = folder.name;
+    file.isType = 'file';
     this.api.addNewFile(file, folder);
     this.toggleAdd = !this.toggleAdd;
     this.files.push(file);
