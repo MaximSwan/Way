@@ -85,7 +85,7 @@ export class FolderComponent implements OnInit {
     file.name = this.fileIn;
     file.parentName = folder.name;
     file.isType = 'file';
-    this.api.addNewFile(file, folder);
+    this.api.addNewFile(file);
     this.toggleAdd = !this.toggleAdd;
     this.files.push(file);
     this.fileIn = '';
