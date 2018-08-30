@@ -71,77 +71,68 @@ export class FolderComponent implements OnInit {
     this.removeFolder.emit(folder);
   }
 
-  addFileInFolder(folder) {
+ async addFileInFolder(folder) {
     if (!this.fileIn) {
       return alert('Введите название');
     }
-    this.api.getAllFolders()
-      .then((res: any) => {
-        for (let i = 0; i < res.length; i++) {
-          const elem = res[i];
-          if (elem.isType) {
-            let fileCur = elem;
-            if (this.fileIn == fileCur.name) {
-              return alert('Такой файл уже есть');
-            }
-          }
+    let res:any = await this.api.getAllFolders();
+    for (let i = 0; i < res.length; i++) {
+      const elem = res[i];
+      if (elem.isType) {
+        let fileCur = elem;
+        if (this.fileIn == fileCur.name) {
+          return alert('Такой файл уже есть');
         }
-        let file = new FileFol();
-        file.name = this.fileIn;
-        file.parentName = folder.name;
-        this.api.addNewFile(file, folder);
-        this.toggleAdd = !this.toggleAdd;
-        this.files.push(file);
-        this.fileIn = '';
-        this.toggleEmpty = true;
-      })
+      }
+    }
+    let file = new FileFol();
+    file.name = this.fileIn;
+    file.parentName = folder.name;
+    this.api.addNewFile(file, folder);
+    this.toggleAdd = !this.toggleAdd;
+    this.files.push(file);
+    this.fileIn = '';
+    this.toggleEmpty = true;  
   }
 
-  addChildFolder(folder) {
+  async addChildFolder(folder) {
     if (!this.newFoldIn) {
       return alert('Введите название')
     }
-    this.api.getAllFolders()
-      .then((res: any) => {
-        for (let i = 0; i < res.length; i++) {
-          const elem = res[i];
-          if (elem.name == this.newFoldIn) {
-            return alert('Такая папка уже существует,введите другое назание');
-          }
-        }
-        let newFolder = new Folder();
-        newFolder.name = this.newFoldIn;
-        newFolder.parentName = folder.name;
-        this.api.addFolder(newFolder);
-        this.toggleAdd = !this.toggleAdd;
-        this.folders.push(newFolder);
-        this.newFoldIn = '';
-        this.toggleEmpty = true;
-      })
-      .catch(err => {
-        console.error(err);
-      })
+    let res: any = await this.api.getAllFolders();
+    for (let i = 0; i < res.length; i++) {
+      const elem = res[i];
+      if (elem.name == this.newFoldIn) {
+        return alert('Такая папка уже существует');
+      }
+    }
+    let newFolder = new Folder();
+    newFolder.name = this.newFoldIn;
+    newFolder.parentName = folder.name;
+    this.api.addFolder(newFolder);
+    this.toggleAdd = !this.toggleAdd;
+    this.folders.push(newFolder);
+    this.newFoldIn = '';
+    this.toggleEmpty = true;
   }
 
-  getChildFold(folder) {
-    this.api.getChildsOnName(folder)
-      .then((res: any) => {
-        if (res.length == 0) {
-          this.toggleEmpty = !this.toggleEmpty;
-        }
-        this.folders.splice(0, this.folders.length);
-        this.files.splice(0, this.files.length);
-        for (let i = 0; i < res.length; i++) {
-          const element = res[i];
-          JSON.stringify(element);
-          if (element.isType) {
-            this.files.push(element);
-          } else {
-            this.folders.push(element);
-          }
-        }
-        this.togglePlsMns = !this.togglePlsMns;
-      })
+  async getChildFold(folder) {
+    let res: any = await this.api.getChildsOnName(folder);
+    if (res.length == 0) {
+      this.toggleEmpty = !this.toggleEmpty;
+    }
+    this.folders.splice(0, this.folders.length);
+    this.files.splice(0, this.files.length);
+    for (let i = 0; i < res.length; i++) {
+      const element = res[i];
+      JSON.stringify(element);
+      if (element.isType) {
+        this.files.push(element);
+      } else {
+        this.folders.push(element);
+      }
+    }
+    this.togglePlsMns = !this.togglePlsMns;
   }
 
   addFileDrop(event) {
