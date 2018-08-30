@@ -54,15 +54,13 @@ export class FolderComponent implements OnInit {
     this.folders.splice(this.folders.indexOf(event), 1);
   }
 
-  deleteCurFolder(folder) {
-    this.api.getChildsOnName(folder)
-      .then((res: any) => {
-        if (res.length != 0) {
-          return this.toggleCheked = !this.toggleCheked;
-        }
-        this.api.deleteOneFolder(folder);
-        this.removeFolder.emit(folder);
-      })
+  async deleteCurFolder(folder) {
+    let res: any = await this.api.getChildsOnName(folder);
+    if (res.length == 0) {
+      return this.toggleCheked = !this.toggleCheked;
+    }
+    this.api.deleteOneFolder(folder);
+    this.removeFolder.emit(folder);
   }
 
   deleteCurFolderEmtpy(folder) {
@@ -71,18 +69,16 @@ export class FolderComponent implements OnInit {
     this.removeFolder.emit(folder);
   }
 
- async addFileInFolder(folder) {
+  async addFileInFolder(folder) {
     if (!this.fileIn) {
       return alert('Введите название');
     }
-    let res:any = await this.api.getAllFolders();
+    let res: any = await this.api.getAllFolders();
     for (let i = 0; i < res.length; i++) {
       const elem = res[i];
       if (elem.isType) {
         let fileCur = elem;
-        if (this.fileIn == fileCur.name) {
-          return alert('Такой файл уже есть');
-        }
+        if (this.fileIn == fileCur.name) return alert('Такой файл уже есть');
       }
     }
     let file = new FileFol();
@@ -92,7 +88,7 @@ export class FolderComponent implements OnInit {
     this.toggleAdd = !this.toggleAdd;
     this.files.push(file);
     this.fileIn = '';
-    this.toggleEmpty = true;  
+    this.toggleEmpty = true;
   }
 
   async addChildFolder(folder) {
