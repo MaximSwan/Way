@@ -36,7 +36,7 @@ export class ApiService {
   }
 
   renameParent(folder: Folder, parent: Folder) {
-    return this.http.put(`${this.apiUrl}folderRenameParent/${folder.name}/${parent.name}`, folder).toPromise();
+    return this.http.put(`${this.apiUrl}folder/${folder.name}`, parent).toPromise();
   }
 
   getChildsOnName(folder: Folder) {

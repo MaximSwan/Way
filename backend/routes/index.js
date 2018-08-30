@@ -77,9 +77,9 @@ router.delete('/file/:name', async (req, res) => {
   res.send(file);
 })
 
-router.put('/folder/:name/:newParent', async (req, res) => {
+router.put('/folder/:name', async (req, res) => {
   let folder = await db.Folder.findOne({ name: req.params.name });
-  folder.parentName = req.params.newParent;
+  folder.parentName = req.body.name ;
   folder.save()
     .then(folder => {
       res.send(folder);
