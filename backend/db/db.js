@@ -9,7 +9,10 @@ mongoose.connect('mongodb://localhost/Folders')
   })
 
 const Folder = mongoose.model('Folder', {
-  name: String,
+  name: {
+    type: String,
+    required: true,
+  },
   parentName: String,
   isType: String,
 })

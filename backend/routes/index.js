@@ -15,75 +15,107 @@ router.get('/folder/childs/:name', async (req, res) => {
 })
 
 router.get('/folders', async (req, res) => {
-  let folders = await db.Folder.find({});
-  res.send(folders);
+  try {
+    let folders = await db.Folder.find({});
+    res.send(folders);
+  } catch (error) {
+    next(error);
+  }
 })
 
 router.post('/folder/child', (req, res) => {
-  let folder = new db.Folder();
-  folder.name = req.body.name;
-  folder.parentName = req.body.parentName;
-  folder.save()
-    .then(result => {
-      res.send(folder)
-    })
-    .catch(err => {
-      console.error(err);
-    });
+  try {
+    let folder = new db.Folder();
+    folder.name = req.body.name;
+
+    let error = folder.validateSync();
+
+    if (error) {
+      return next(error);
+    }
+
+    folder.parentName = req.body.parentName;
+    folder.save();
+
+  } catch (error) {
+    next(error);
+  }
 })
 
-router.post('/folder', (req, res) => {
-  let folder = new db.Folder();
-  folder.name = req.body.name;
-  folder.save()
-    .then(result => {
-      res.send(folder);
-    })
-    .catch(err => {
-      console.error(err);
-    });
+router.post('/folder', async (req, res) => {
+  try {
+    let folder = new db.Folder();
+    folder.name = req.body.name;
+
+    let error = folder.validateSync();
+
+    if (error) {
+      return next(error);
+    }
+
+    let result = await folder.save();
+
+    res.send(result);
+
+  } catch (error) {
+    next(error);
+  }
 })
 
-router.post('/file', async (req, res) => {
-  let file = new db.Folder(); 
-  file.name = req.body.name;
-  file.parentName = req.parent.name;
-  file.isType = 'file';
-  file.save()
-    .then(result => {
-      res.send(file)
-    })
-    .catch(err => {
-      console.error(err);
-    })
+router.post('/file', async (req, res, next) => {
+  try {
+    let file = new db.Folder();
+    file.name = req.body.name;
+
+    file.parentName = req.body.parentName;
+    file.isType = 'file';
+
+    let error = file.validateSync();
+
+    if (error) {
+      return next(error);
+    }
+
+    let result = await file.save();
+
+    res.send(result);
+
+  } catch (error) {
+    next(error);
+  }
 });
 
-router.delete('/folder/:name', async (req, res) => {
+router.delete('/folder/:name', async (req, res, next) => {
   try {
-    let folder = await db.Folder.deleteOne({ name: req.params.name });
-    let folderDeleted = await db.Folder.remove({ parentName: req.params.name });
+    let result = await Promise.all([db.Folder.deleteOne({ name: req.params.name }),
+    db.Folder.remove({ parentName: req.params.name })])
+
+    res.send(result[0]);
+
   } catch (err) {
-    console.error(err);
+    next(err);
   }
-  res.send(folder);
+
 })
 
 router.delete('/file', async (req, res) => {
   try {
     let file = await db.Folder.deleteOne({ name: req.body.name, isType: 'file' });
-  } catch (err) {
-    console.error(err);
+    res.send(file);
+  } catch (error) {
+    next(error);
   }
-  res.send(file);
 })
 
 router.put('/folder', async (req, res) => {
-  let folder = await db.Folder.findOne({ name: req.body[1].name });
-  folder.parentName = req.body[0].name;
-  folder.save()
-    .then(folder => {
-      res.send(folder);
-    })
+  try {
+    let folder = await db.Folder.findOne({ name: req.body[1].name });
+    folder.parentName = req.body[0].name;
+    let result = await folder.save();
+    res.send(result);
+  } catch (error) {
+    next(error);
+  }
 })
 
 module.exports = router;

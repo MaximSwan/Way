@@ -24,5 +24,25 @@ app.use(function (req, res, next) {
 
 app.use('/', indexRouter);
 
+app.use((err, req, res, next) => {
+  console.error(err);
+  
+  if (err && err.name && err.name === 'ValidationError') {  
+    let errorData = { statusCode: 400, message: '' };
+    let validationKey = Object.keys(error.errors);
+    validationKey.forEach(key => {
+      errorData.message = errorData.message.concat(error.errors[key].message) + ' '
+    });
+    res.status(errorData.statusCode).send(errorData);
+  }
+  
+  let errorData = {
+    statusCode: err && err.statusCode < 500 && err.statusCode || 500,
+    message: err && err.statusCode < 500 && err.message || 'Internal server error'
+  };
+
+  res.status(errorData.statusCode).send(errorData);
+});
+
 
 module.exports = app;
