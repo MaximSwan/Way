@@ -4,6 +4,8 @@ import { ApiService } from '../api/api.service';
 @Injectable()
 export class FolderService {
 
+  folders = [];
+
   constructor(
     private api: ApiService
   ) { }
@@ -15,6 +17,6 @@ export class Folder {
     public name: string,
     public parentId?: string,
     public _id?: string,
-    public isType?: String
+    public isType?: string
   ) {}
 }

@@ -1,40 +1,45 @@
 <div class="col" draggable droppable (onDrop)="folderOnDrop($event)" (onDrag)="folderOnDrag($event)" [dragData]="folder">
-  <button (click)="deleteCurFolder(folder)" type="button" class="btn btn-primary">
-    X
-  </button>
   <div *ngIf="!toggleCheked">
     Если вы удалите эту папку то и удалите все,что в ней находится.
     <button class="btn btn-danger" (click)="deleteCurFolderEmtpy(folder)">Всеравно удалить</button>
   </div>
-  <img src="../../../assets/folder-icon.jpg" class="foldImg" alt=""> {{folder.name}}
-  <button class=" btn" (click)="toggleAdd = !toggleAdd">add</button>
-  <div *ngIf="!toggleAdd">
-    <p>Добавить новую папку:</p>
-    <input [(ngModel)]="newFoldIn" type="text">
-    <button class="btn" (click)="addChildFolder(folder)">Add</button>
-    <p>или, Добавить новый файл:</p>
-    <input [(ngModel)]="fileIn" type="text">
-    <button (click)="addFileInFolder(folder)" class="btn">Add</button>
-  </div>
-  <!-- Button trigger modal -->
-  <span *ngIf="togglePlsMns">
-    <button (click)="getChildFold(folder)" type="button" class="btn btn-outline-dark">+</button>
-  </span>
-  <span *ngIf="!togglePlsMns">
-    <button (click)="getChildFold(folder)" type="button" class="btn btn-outline-dark">-</button>
-
-    <app-folder (deleteDropedFolder)="removeThisFolder($event)" draggable droppable (onDrop)="folderOnDrop($event)" (onDrag)="folderOnDrag($event)"
-      [dragData]="folder" (removeFolder)="onRemoveFolder($event)" [folderName]="folder" *ngFor="let folder of folders">
-
-    </app-folder>
-
-    <div *ngIf="!toggleEmpty">
-      <p>Папка пуста</p>
+  <div *ngIf="!folder.isType">
+    {{folder.name}}
+    <img src="../../../assets/folder-icon.jpg" class="foldImg" alt="">
+    <button class=" btn" (click)="toggleAdd = !toggleAdd">add</button>
+    <div *ngIf="!toggleAdd">
+      <p>Добавить новую папку:</p>
+      <input [(ngModel)]="newFoldIn" type="text">
+      <button class="btn" (click)="addChildFolder(folder)">Add</button>
+      <p>или, Добавить новый файл:</p>
+      <input [(ngModel)]="fileIn" type="text">
+      <button (click)="addFileInFolder(folder)" class="btn">Add</button>
     </div>
+    <!-- Button trigger modal -->
+    <span *ngIf="togglePlsMns">
+      <button (click)="getChildFold(folder)" type="button" class="btn btn-outline-dark">+</button>
+    </span>
+    <span *ngIf="!togglePlsMns">
+      <button (click)="getChildFold(folder)" type="button" class="btn btn-outline-dark">-</button>
 
-    <app-file [toggleContr]="toggleEmpty" (addDropFile)="addFileDrop($event)" (removeFile)="removeCurItem($event)" [fileName]="file"
-      *ngFor="let file of files">
+      <app-folder (deleteDropedFolder)="removeThisFolder($event)" draggable droppable (onDrop)="folderOnDrop($event)" (onDrag)="folderOnDrag($event)"
+        [dragData]="folder" (removeFolder)="onRemoveFolder($event)" [folderName]="folder" *ngFor="let folder of folders">
 
-    </app-file>
-  </span>
+      </app-folder>
+
+      <div *ngIf="!toggleEmpty">
+        <p>Папка пуста</p>
+      </div>
+
+    </span>
+    <button (click)="deleteCurFolder(folder)" type="button" class="btn btn-primary">
+      X
+    </button>
+  </div>
+  <div *ngIf="folder.isType">
+    <img id="file" src="../../../assets/note.png" alt=""> {{ folder.name }}
+    <button (click)="deleteCurFolder(folder)" type="button" class="btn btn-primary">
+      X
+    </button>
+  </div>
 </div>
