@@ -8,8 +8,41 @@ router.use(bodyParser.urlencoded({ extended: false }))
 
 router.use(bodyParser.json())
 
-router.get('/folder/childs/:name', async (req, res) => {
-  let folder = await db.Folder.findOne({ name: req.params.name });
+router.put('/folders', async (req, res) => {
+
+  let folder = new Folder();
+
+
+})
+
+router.delete('/folder/:id', async (req, res, next) => {
+  try {
+    let folder = await db.Folder.findOneAndDelete({ _id: req.params.id });
+    let childsFolder = await db.Folder.remove({ parentName: { $eq: folder.name } });
+    let childsFile = await db.Folder.remove({ parentName: { $eq: folder.name }, isType: 'file' });
+    // let result = Promise.all([db.Folder.deleteOne({ _id: req.params.id }),
+    // db.Folder.remove({ parentName: { $eq: result[0].name } }),
+    // db.Folder.remove({ parentName: { $eq: result[0].name }, isType: 'file' }),
+    // ])
+
+    res.send(folder);
+  } catch (err) {
+    next(err);
+  }
+
+})
+
+router.delete('/file/:id', async (req, res) => {
+  try {
+    let file = await db.Folder.deleteOne({ _id: req.params.id, isType: 'file' });
+    res.send(file);
+  } catch (error) {
+    next(error);
+  }
+})
+
+router.get('/folder/childs/:id', async (req, res) => {
+  let folder = await db.Folder.findOne({ _id: req.params.id });
   let childs = await db.Folder.find({ parentName: { $eq: folder.name } });
   res.send(childs);
 })
@@ -23,29 +56,14 @@ router.get('/folders', async (req, res) => {
   }
 })
 
-router.post('/folder/child', (req, res) => {
-  try {
-    let folder = new db.Folder();
-    folder.name = req.body.name;
-
-    let error = folder.validateSync();
-
-    if (error) {
-      return next(error);
-    }
-
-    folder.parentName = req.body.parentName;
-    folder.save();
-
-  } catch (error) {
-    next(error);
-  }
-})
-
 router.post('/folder', async (req, res) => {
   try {
     let folder = new db.Folder();
     folder.name = req.body.name;
+
+    if (req.body.parentName) {
+      folder.parentName = req.body.parentName;
+    }
 
     let error = folder.validateSync();
 
@@ -84,28 +102,6 @@ router.post('/file', async (req, res, next) => {
     next(error);
   }
 });
-
-router.delete('/folder/:name', async (req, res, next) => {
-  try {
-    let result = await Promise.all([db.Folder.deleteOne({ name: req.params.name }),
-    db.Folder.remove({ parentName: req.params.name })])
-
-    res.send(result[0]);
-
-  } catch (err) {
-    next(err);
-  }
-
-})
-
-router.delete('/file', async (req, res) => {
-  try {
-    let file = await db.Folder.deleteOne({ name: req.body.name, isType: 'file' });
-    res.send(file);
-  } catch (error) {
-    next(error);
-  }
-})
 
 router.put('/folder', async (req, res) => {
   try {

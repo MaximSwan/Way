@@ -42,7 +42,7 @@ export class AppComponent {
       return alert('Введите название');
     }
     this.api.getAllFolders()
-      .then((res: any) => {
+      .then(async (res: any) => {
         for (let i = 0; i < res.length; i++) {
           const elem = res[i];
           if (elem.name == this.folderNameInput) {
@@ -51,8 +51,9 @@ export class AppComponent {
         }
         let folder = new Folder();
         folder.name = this.folderNameInput;
-        this.folders.push(folder);
-        this.api.addFolderOnHigt(folder);
+        let folderRes = await this.api.addFolder(folder);
+        this.folders.push(folderRes);
+        console.log(folderRes);
         this.folderNameInput = '';
       })
       .catch(err => {

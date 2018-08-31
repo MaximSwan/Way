@@ -85,9 +85,9 @@ export class FolderComponent implements OnInit {
     file.name = this.fileIn;
     file.parentName = folder.name;
     file.isType = 'file';
-    this.api.addNewFile(file);
+    let fileRes = await this.api.addNewFile(file);
     this.toggleAdd = !this.toggleAdd;
-    this.files.push(file);
+    this.files.push(fileRes);
     this.fileIn = '';
     this.toggleEmpty = true;
   }
@@ -106,9 +106,9 @@ export class FolderComponent implements OnInit {
     let newFolder = new Folder();
     newFolder.name = this.newFoldIn;
     newFolder.parentName = folder.name;
-    this.api.addFolder(newFolder);
+    let newFolderRes = await this.api.addFolder(newFolder);
     this.toggleAdd = !this.toggleAdd;
-    this.folders.push(newFolder);
+    this.folders.push(newFolderRes);
     this.newFoldIn = '';
     this.toggleEmpty = true;
   }
