@@ -23,7 +23,7 @@ export class FileComponent implements OnInit {
   ) { }
 
   delteFile(file) {
-    this.api.deleteFile(file);
+    this.api.deleteOneFolder(file);
     this.removeFile.emit(file);
   }
 
@@ -31,7 +31,7 @@ export class FileComponent implements OnInit {
     if (event.dragData.name == this.file.name) {
       return;
     }
-    if (event.dragData.parentName == this.file.name) {
+    if (event.dragData.parentId == this.file._id) {
       return;
     }
     this.api.renameParent(event.dragData, this.file);

@@ -8,15 +8,15 @@ mongoose.connect('mongodb://localhost/Folders')
     console.error('Can t connect to db');
   })
 
-const Folder = mongoose.model('Folder', {
+const Node = mongoose.model('Folder', {
   name: {
     type: String,
     required: true,
   },
-  parentName: String,
+  parentId: String,
   isType: String,
 })
 
 module.exports = {
-  Folder: Folder,
+  Node: Node,
 }

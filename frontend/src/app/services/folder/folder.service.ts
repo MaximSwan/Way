@@ -11,8 +11,10 @@ export class FolderService {
 }
 
 export class Folder {
-  name: String;
-  parentName: String;
-  _id: String;
-  isType: String;
+  constructor(
+    public name: string,
+    public parentId?: string,
+    public _id?: string,
+    public isType?: String
+  ) {}
 }

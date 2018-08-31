@@ -8,70 +8,46 @@ router.use(bodyParser.urlencoded({ extended: false }))
 
 router.use(bodyParser.json())
 
-router.put('/folders', async (req, res) => {
-
-  let folder = new Folder();
-
-
-})
-
-router.delete('/folder/:id', async (req, res, next) => {
+router.delete('/node/:id', async (req, res, next) => {
   try {
-    let folder = await db.Folder.findOneAndDelete({ _id: req.params.id });
-    let childsFolder = await db.Folder.remove({ parentName: { $eq: folder.name } });
-    let childsFile = await db.Folder.remove({ parentName: { $eq: folder.name }, isType: 'file' });
-    // let result = Promise.all([db.Folder.deleteOne({ _id: req.params.id }),
-    // db.Folder.remove({ parentName: { $eq: result[0].name } }),
-    // db.Folder.remove({ parentName: { $eq: result[0].name }, isType: 'file' }),
-    // ])
 
-    res.send(folder);
+    let node = await db.Node.findOneAndDelete({ _id: req.params.id });
+    if (!node.isType) {
+      let childsNode = await db.Node.remove({ parentId: { $eq: node._id } });
+    }
+
+    res.send(node);
   } catch (err) {
     next(err);
   }
 
 })
 
-router.delete('/file/:id', async (req, res) => {
-  try {
-    let file = await db.Folder.deleteOne({ _id: req.params.id, isType: 'file' });
-    res.send(file);
-  } catch (error) {
-    next(error);
-  }
-})
-
-router.get('/folder/childs/:id', async (req, res) => {
-  let folder = await db.Folder.findOne({ _id: req.params.id });
-  let childs = await db.Folder.find({ parentName: { $eq: folder.name } });
+router.get('/node/:id/childs', async (req, res) => {
+  let node = await db.Node.findOne({ _id: req.params.id });
+  let childs = await db.Node.find({ parentId: { $eq: node._id } });
   res.send(childs);
 })
 
-router.get('/folders', async (req, res) => {
+router.get('/nodes', async (req, res) => {
   try {
-    let folders = await db.Folder.find({});
-    res.send(folders);
+    let nodes = await db.Node.find({});
+    res.send(nodes);
   } catch (error) {
     next(error);
   }
 })
 
-router.post('/folder', async (req, res) => {
+router.post('/node', async (req, res) => {
   try {
-    let folder = new db.Folder();
-    folder.name = req.body.name;
-
-    if (req.body.parentName) {
-      folder.parentName = req.body.parentName;
-    }
-
-    let error = folder.validateSync();
+    let node = new db.Node(req.body);
+    let error = node.validateSync();
 
     if (error) {
       return next(error);
     }
 
-    let result = await folder.save();
+    let result = await node.save();
 
     res.send(result);
 
@@ -80,34 +56,11 @@ router.post('/folder', async (req, res) => {
   }
 })
 
-router.post('/file', async (req, res, next) => {
+router.put('/node', async (req, res) => {
   try {
-    let file = new db.Folder();
-    file.name = req.body.name;
-
-    file.parentName = req.body.parentName;
-    file.isType = 'file';
-
-    let error = file.validateSync();
-
-    if (error) {
-      return next(error);
-    }
-
-    let result = await file.save();
-
-    res.send(result);
-
-  } catch (error) {
-    next(error);
-  }
-});
-
-router.put('/folder', async (req, res) => {
-  try {
-    let folder = await db.Folder.findOne({ name: req.body[1].name });
-    folder.parentName = req.body[0].name;
-    let result = await folder.save();
+    let node = await db.Node.findOne({ name: req.body[1].name });
+    node.parentId = req.body[0]._id;
+    let result = await node.save();
     res.send(result);
   } catch (error) {
     next(error);

@@ -12,31 +12,23 @@ export class ApiService {
   apiUrl: string = 'http://localhost:3000/'
 
   getAllFolders() {
-    return this.http.get(`${this.apiUrl}folders`).toPromise();
+    return this.http.get(`${this.apiUrl}nodes`).toPromise();
   }
 
   addFolder(folder: Folder) {
-    return this.http.post(`${this.apiUrl}folder`, folder).toPromise();
+    return this.http.post(`${this.apiUrl}node`, folder).toPromise();
   }
 
   deleteOneFolder(folder: Folder) {
-    return this.http.delete(`${this.apiUrl}folder/${folder._id}`).toPromise();
-  }
-
-  addNewFile(file) {  
-    return this.http.post(`${this.apiUrl}file`, file).toPromise();
-  }
-
-  deleteFile(file) {
-    return this.http.delete(`${this.apiUrl}file/${file._id}`, file).toPromise();
+    return this.http.delete(`${this.apiUrl}node/${folder._id}`).toPromise();
   }
 
   renameParent(folder: Folder, parent: Folder) {
-    return this.http.put(`${this.apiUrl}folder`, [parent, folder]).toPromise();
+    return this.http.put(`${this.apiUrl}node`, [parent, folder]).toPromise();
   }
 
   getChildsOnName(folder: Folder) {
-    return this.http.get(`${this.apiUrl}folder/childs/${folder._id}`).toPromise();
+    return this.http.get(`${this.apiUrl}node/${folder._id}/childs`).toPromise();
   }
 
 } 

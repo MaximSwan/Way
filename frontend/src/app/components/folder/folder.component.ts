@@ -35,10 +35,10 @@ export class FolderComponent implements OnInit {
   toggleCheked = true;
 
   folderOnDrop(event: any) {
-    if (event.dragData.name == this.folder.name) {
+    if (event.dragData.name == this.folder._id) {
       return;
     }
-    if (event.dragData.parentName == this.folder.name) {
+    if (event.dragData.parentId == this.folder._id) {
       return;
     }
     this.api.renameParent(event.dragData, this.folder);
@@ -56,9 +56,9 @@ export class FolderComponent implements OnInit {
 
   async deleteCurFolder(folder) {
     let res: any = await this.api.getChildsOnName(folder);
-    if (res.length == 0) {
+    if (res.length != 0) {
       return this.toggleCheked = !this.toggleCheked;
-    }
+    } 
     this.api.deleteOneFolder(folder);
     this.removeFolder.emit(folder);
   }
@@ -81,11 +81,8 @@ export class FolderComponent implements OnInit {
         if (this.fileIn == fileCur.name) return alert('Такой файл уже есть');
       }
     }
-    let file = new Folder();
-    file.name = this.fileIn;
-    file.parentName = folder.name;
-    file.isType = 'file';
-    let fileRes = await this.api.addNewFile(file);
+    let file = new Folder(this.fileIn, folder._id, null, 'file')
+    let fileRes = await this.api.addFolder(file);
     this.toggleAdd = !this.toggleAdd;
     this.files.push(fileRes);
     this.fileIn = '';
@@ -103,9 +100,8 @@ export class FolderComponent implements OnInit {
         return alert('Такая папка уже существует');
       }
     }
-    let newFolder = new Folder();
-    newFolder.name = this.newFoldIn;
-    newFolder.parentName = folder.name;
+    let newFolder = new Folder(this.newFoldIn, folder._id);
+
     let newFolderRes = await this.api.addFolder(newFolder);
     this.toggleAdd = !this.toggleAdd;
     this.folders.push(newFolderRes);

@@ -29,9 +29,9 @@ app.use((err, req, res, next) => {
   
   if (err && err.name && err.name === 'ValidationError') {  
     let errorData = { statusCode: 400, message: '' };
-    let validationKey = Object.keys(error.errors);
+    let validationKey = Object.keys(err.errors);
     validationKey.forEach(key => {
-      errorData.message = errorData.message.concat(error.errors[key].message) + ' '
+      errorData.message = errorData.message.concat(err.errors[key].message) + ' '
     });
     res.status(errorData.statusCode).send(errorData);
   }
