@@ -6,6 +6,25 @@ export class FolderService {
 
   folders = [];
 
+  loadFoldersNow() {
+    this.folders.splice(0, this.folders.length);
+    return this.api.getAllFolders()
+      .then((res: any) => {
+        for (let i = 0; i < res.length; i++) {
+          const element = res[i];
+          JSON.stringify(element);
+          if (element.parentId) {
+            return;
+          }
+          this.folders.push(element);
+          console.log(this.folders);
+        }
+      })
+      .catch(err => {
+        console.error(err);
+      })
+  }
+
   constructor(
     private api: ApiService
   ) { }
