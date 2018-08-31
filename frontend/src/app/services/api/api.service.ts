@@ -19,7 +19,7 @@ export class ApiService {
     return this.http.post(`${this.apiUrl}node`, folder).toPromise();
   }
 
-  deleteOneFolder(folder: Folder) {
+  deleteFolder(folder: Folder) {
     return this.http.delete(`${this.apiUrl}node/${folder._id}`).toPromise();
   }
 

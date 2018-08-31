@@ -53,9 +53,4 @@ export class AppComponent {
     this.folders.splice(this.folders.indexOf(event), 1);
   }
 
-  // removeDropedFolder(event) {
-  //   console.log(event);
-  //   this.folders.splice(this.folders.indexOf(event), 1);
-  // }
-
 }

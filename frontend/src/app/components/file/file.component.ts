@@ -23,7 +23,7 @@ export class FileComponent implements OnInit {
   ) { }
 
   delteFile(file) {
-    this.api.deleteOneFolder(file);
+    this.api.deleteFolder(file);
     this.removeFile.emit(file);
   }
 

@@ -42,8 +42,14 @@ export class FolderComponent implements OnInit {
       return;
     }
     this.api.renameParent(event.dragData, this.folder);
+    if (event.dragData.isType) {
+      this.files.push(event.dragData);
+      return this.toggleEmpty = true;
+    }
     this.folders.push(event.dragData);
     this.toggleEmpty = true;
+
+    this.deleteDropedFolder.emit(this.folder);
   }
 
   folderOnDrag(event) {
@@ -58,28 +64,20 @@ export class FolderComponent implements OnInit {
     let res: any = await this.api.getChildsOnName(folder);
     if (res.length != 0) {
       return this.toggleCheked = !this.toggleCheked;
-    } 
-    this.api.deleteOneFolder(folder);
+    }
+    this.api.deleteFolder(folder);
     this.removeFolder.emit(folder);
   }
 
   deleteCurFolderEmtpy(folder) {
     console.log(folder);
-    this.api.deleteOneFolder(folder);
+    this.api.deleteFolder(folder);
     this.removeFolder.emit(folder);
   }
 
   async addFileInFolder(folder) {
     if (!this.fileIn) {
       return alert('Введите название');
-    }
-    let res: any = await this.api.getAllFolders();
-    for (let i = 0; i < res.length; i++) {
-      const elem = res[i];
-      if (elem.isType) {
-        let fileCur = elem;
-        if (this.fileIn == fileCur.name) return alert('Такой файл уже есть');
-      }
     }
     let file = new Folder(this.fileIn, folder._id, null, 'file')
     let fileRes = await this.api.addFolder(file);
@@ -93,15 +91,7 @@ export class FolderComponent implements OnInit {
     if (!this.newFoldIn) {
       return alert('Введите название')
     }
-    let res: any = await this.api.getAllFolders();
-    for (let i = 0; i < res.length; i++) {
-      const elem = res[i];
-      if (elem.name == this.newFoldIn) {
-        return alert('Такая папка уже существует');
-      }
-    }
     let newFolder = new Folder(this.newFoldIn, folder._id);
-
     let newFolderRes = await this.api.addFolder(newFolder);
     this.toggleAdd = !this.toggleAdd;
     this.folders.push(newFolderRes);
@@ -129,7 +119,6 @@ export class FolderComponent implements OnInit {
   }
 
   addFileDrop(event) {
-    console.log(event);
     this.files.push(event);
   }
 
