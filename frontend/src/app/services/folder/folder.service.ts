@@ -4,12 +4,35 @@ import { ApiService } from '../api/api.service';
 @Injectable()
 export class FolderService {
 
+  foldersChild = [];
   folders = [];
   toggleEmpty = true;
 
+  async addNewChildFolder(folder: Folder) {
+    try {
+      let folderRes = await this.api.addFolder(folder);
+      this.foldersChild.push(folderRes);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async addNewFile(file: Folder) {
+    try {
+      let fileRes = await this.api.addFolder(file);
+      this.foldersChild.push(fileRes);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   async addNewFolder(folder: Folder) {
-    let res: any = await this.api.addFolder(folder);
-    this.folders.push(res);
+    try {
+      let res: any = await this.api.addFolder(folder);
+      this.folders.push(res);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   loadFoldersNow() {

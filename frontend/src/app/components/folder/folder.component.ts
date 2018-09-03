@@ -22,7 +22,9 @@ export class FolderComponent implements OnInit {
   constructor(
     private api: ApiService,
     private folderService: FolderService
-  ) { }
+  ) {
+    this.folders = folderService.foldersChild;
+  }
 
   togglePlsMns = true;
   folders = [];
@@ -78,10 +80,9 @@ export class FolderComponent implements OnInit {
     if (!this.fileIn) {
       return alert('Введите название');
     }
-    let file = new Folder(this.fileIn, folder._id, null, 'file')
-    let fileRes = await this.api.addFolder(file);
+    let file = new Folder(this.fileIn, folder._id, null, 'file');
+    this.folderService.addNewFile(file);
     this.toggleAdd = !this.toggleAdd;
-    this.folders.push(fileRes);
     this.fileIn = '';
     this.toggleEmpty = true;
   }
@@ -91,9 +92,8 @@ export class FolderComponent implements OnInit {
       return alert('Введите название')
     }
     let newFolder = new Folder(this.newFoldIn, folder._id);
-    let newFolderRes = await this.api.addFolder(newFolder);
+    this.folderService.addNewChildFolder(newFolder);
     this.toggleAdd = !this.toggleAdd;
-    this.folders.push(newFolderRes);
     this.newFoldIn = '';
     this.toggleEmpty = true;
   }
@@ -107,7 +107,7 @@ export class FolderComponent implements OnInit {
     for (let i = 0; i < res.length; i++) {
       const element = res[i];
       JSON.stringify(element);
-      this.folders.push(element); 
+      this.folders.push(element);
     }
     this.togglePlsMns = !this.togglePlsMns;
   }
