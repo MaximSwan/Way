@@ -4,39 +4,44 @@ import { ApiService } from '../api/api.service';
 @Injectable()
 export class FolderService {
 
+  constructor(
+    private api: ApiService
+  ) { }
+
   foldersChild = [];
   folders = [];
-  toggleEmpty = true;
   toggleCheked = true;
 
+  updateFolder(dragData, folder: Folder) {
+    return this.api.renameParent(dragData, folder);
+  }
+
+  async loadChilds(folder) {
+    return this.api.getChildsOnName(folder)
+      .catch(err => {
+        console.error(err);
+      })
+  }
+
   async deleteFolder(folder: Folder) {
-    try {
-      let res: any = await this.api.getChildsOnName(folder);
-      if (res.length != 0) {
-        return this.toggleCheked = !this.toggleCheked;
-      }
-      let deletedFolder = await this.api.deleteFolder(folder);
-    } catch (error) {
-      console.error(error);
-    }
+    return this.api.getChildsOnName(folder)
+      .then(async (res: any) => {
+        let deletedFolder = await this.api.deleteFolder(folder)
+      })
   }
 
   async addNewChildFolder(folder: Folder) {
-    try {
-      let folderRes = await this.api.addFolder(folder);
-      console.log(folderRes);
-    } catch (error) {
-      console.error(error);
-    }
+    return this.api.addFolder(folder)
+      .catch(err => {
+        console.error(err);
+      })
   }
 
   async addNewFolder(folder: Folder) {
-
-    if (!folder.parentId) {
-      let res: any = await this.api.addFolder(folder);
-      this.folders.push(res);
-    }
-
+    return this.api.addFolder(folder)
+      .catch(err => {
+        console.error(err);
+      })
   }
 
   loadFoldersNow() {
@@ -57,10 +62,6 @@ export class FolderService {
         console.error(err);
       })
   }
-
-  constructor(
-    private api: ApiService
-  ) { }
 
 }
 

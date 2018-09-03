@@ -23,9 +23,10 @@ export class AppComponent {
     if (!this.folderNameInput) {
       return alert('Введите название');
     }
-        let folder = new Folder(this.folderNameInput);
-        this.folderService.addNewFolder(folder);
-        this.folderNameInput = '';
+    let folder = new Folder(this.folderNameInput);
+    let newFold = await this.folderService.addNewFolder(folder);
+    this.folders.push(newFold);
+    this.folderNameInput = '';
   }
 
   onRemoveFolder(event) {

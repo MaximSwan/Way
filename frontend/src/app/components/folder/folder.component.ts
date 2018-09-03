@@ -42,7 +42,8 @@ export class FolderComponent implements OnInit {
     if (event.dragData.parentId == this.folder._id) {
       return;
     }
-    this.api.renameParent(event.dragData, this.folder);
+    this.folderService.updateFolder(event.dragData, this.folder);
+    // this.api.renameParent(event.dragData, this.folder);
     if (event.dragData.isType) {
       this.folders.push(event.dragData);
       return this.toggleEmpty = true;
@@ -61,6 +62,10 @@ export class FolderComponent implements OnInit {
   }
 
   async deleteCurFolder(folder) {
+    let res: any = await this.folderService.loadChilds(folder);
+    if (res != 0) {
+      return this.toggleCheked = !this.toggleCheked;
+    }
     this.folderService.deleteFolder(folder);
     this.removeFolder.emit(folder);
   }
@@ -71,34 +76,42 @@ export class FolderComponent implements OnInit {
   }
 
   async addChildFolder(folder) {
-    if (this.newFoldIn) {
-      let newFolder = new Folder(this.newFoldIn, folder._id);
-      this.folderService.addNewFolder(newFolder);
-      this.folders.push(newFolder);
+    try {
+      if (this.newFoldIn) {
+        let newFolder = new Folder(this.newFoldIn, folder._id);
+        let result = await this.folderService.addNewFolder(newFolder);
+        this.folders.push(result);
+      }
+      if (this.fileIn) {
+        let newFolder = new Folder(this.fileIn, folder._id, null, 'file');
+        let result = await this.folderService.addNewFolder(newFolder);
+        this.folders.push(newFolder);
+      }
+      this.toggleAdd = !this.toggleAdd;
+      this.newFoldIn = '';
+      this.toggleEmpty = true;
+    } catch (err) {
+      console.error(err);
     }
-    if (this.fileIn) {
-      let newFolder = new Folder(this.fileIn, folder._id, null, 'file');
-      this.folderService.addNewFolder(newFolder);
-      this.folders.push(newFolder);
-    }
-    this.toggleAdd = !this.toggleAdd;
-    this.newFoldIn = '';
-    this.toggleEmpty = true;
   }
 
 
   async getChildFold(folder) {
-    let res: any = await this.api.getChildsOnName(folder);
-    if (res.length == 0) {
-      this.toggleEmpty = !this.toggleEmpty;
+    try {
+      let res: any = await this.folderService.loadChilds(folder);
+      if (res.length == 0) {
+        this.toggleEmpty = !this.toggleEmpty;
+      }
+      this.folders.splice(0, this.folders.length);
+      for (let i = 0; i < res.length; i++) {
+        const element = res[i];
+        JSON.stringify(element);
+        this.folders.push(element);
+      }
+      this.togglePlsMns = !this.togglePlsMns;
+    } catch (err) {
+      console.error(err);
     }
-    this.folders.splice(0, this.folders.length);
-    for (let i = 0; i < res.length; i++) {
-      const element = res[i];
-      JSON.stringify(element);
-      this.folders.push(element);
-    }
-    this.togglePlsMns = !this.togglePlsMns;
   }
 
   addFileDrop(event) {
