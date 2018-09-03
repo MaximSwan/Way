@@ -7,32 +7,36 @@ export class FolderService {
   foldersChild = [];
   folders = [];
   toggleEmpty = true;
+  toggleCheked = true;
 
-  async addNewChildFolder(folder: Folder) {
+  async deleteFolder(folder: Folder) {
     try {
-      let folderRes = await this.api.addFolder(folder);
-      this.foldersChild.push(folderRes);
+      let res: any = await this.api.getChildsOnName(folder);
+      if (res.length != 0) {
+        return this.toggleCheked = !this.toggleCheked;
+      }
+      let deletedFolder = await this.api.deleteFolder(folder);
     } catch (error) {
       console.error(error);
     }
   }
 
-  async addNewFile(file: Folder) {
+  async addNewChildFolder(folder: Folder) {
     try {
-      let fileRes = await this.api.addFolder(file);
-      this.foldersChild.push(fileRes);
+      let folderRes = await this.api.addFolder(folder);
+      console.log(folderRes);
     } catch (error) {
       console.error(error);
     }
   }
 
   async addNewFolder(folder: Folder) {
-    try {
+
+    if (!folder.parentId) {
       let res: any = await this.api.addFolder(folder);
       this.folders.push(res);
-    } catch (error) {
-      console.error(error);
     }
+
   }
 
   loadFoldersNow() {

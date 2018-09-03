@@ -23,7 +23,6 @@ export class FolderComponent implements OnInit {
     private api: ApiService,
     private folderService: FolderService
   ) {
-    this.folders = folderService.foldersChild;
   }
 
   togglePlsMns = true;
@@ -62,41 +61,31 @@ export class FolderComponent implements OnInit {
   }
 
   async deleteCurFolder(folder) {
-    let res: any = await this.api.getChildsOnName(folder);
-    if (res.length != 0) {
-      return this.toggleCheked = !this.toggleCheked;
-    }
-    this.api.deleteFolder(folder);
+    this.folderService.deleteFolder(folder);
     this.removeFolder.emit(folder);
   }
 
   deleteCurFolderEmtpy(folder) {
-    console.log(folder);
-    this.api.deleteFolder(folder);
+    this.folderService.deleteFolder(folder);
     this.removeFolder.emit(folder);
   }
 
-  async addFileInFolder(folder) {
-    if (!this.fileIn) {
-      return alert('Введите название');
-    }
-    let file = new Folder(this.fileIn, folder._id, null, 'file');
-    this.folderService.addNewFile(file);
-    this.toggleAdd = !this.toggleAdd;
-    this.fileIn = '';
-    this.toggleEmpty = true;
-  }
-
   async addChildFolder(folder) {
-    if (!this.newFoldIn) {
-      return alert('Введите название')
+    if (this.newFoldIn) {
+      let newFolder = new Folder(this.newFoldIn, folder._id);
+      this.folderService.addNewFolder(newFolder);
+      this.folders.push(newFolder);
     }
-    let newFolder = new Folder(this.newFoldIn, folder._id);
-    this.folderService.addNewChildFolder(newFolder);
+    if (this.fileIn) {
+      let newFolder = new Folder(this.fileIn, folder._id, null, 'file');
+      this.folderService.addNewFolder(newFolder);
+      this.folders.push(newFolder);
+    }
     this.toggleAdd = !this.toggleAdd;
     this.newFoldIn = '';
     this.toggleEmpty = true;
   }
+
 
   async getChildFold(folder) {
     let res: any = await this.api.getChildsOnName(folder);

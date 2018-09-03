@@ -13,7 +13,7 @@
       <button class="btn" (click)="addChildFolder(folder)">Add</button>
       <p>или, Добавить новый файл:</p>
       <input [(ngModel)]="fileIn" type="text">
-      <button (click)="addFileInFolder(folder)" class="btn">Add</button>
+      <button (click)="addChildFolder(folder)" class="btn">Add</button>
     </div>
     <!-- Button trigger modal -->
     <span *ngIf="togglePlsMns">
