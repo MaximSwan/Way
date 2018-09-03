@@ -9,7 +9,6 @@ export class FolderService {
   ) { }
 
   folders = [];
-  toggleCheked = true;
 
   updateFolder(dragData, folder: Folder) {
     return this.api.renameParent(dragData, folder)
@@ -29,13 +28,6 @@ export class FolderService {
     return this.api.getChildsOnName(folder)
       .then(async (res: any) => {
         let deletedFolder = await this.api.deleteFolder(folder)
-      })
-  }
-
-  async addNewChildFolder(folder: Folder) {
-    return this.api.addFolder(folder)
-      .catch(err => {
-        console.error(err);
       })
   }
 
