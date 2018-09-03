@@ -5,6 +5,12 @@ import { ApiService } from '../api/api.service';
 export class FolderService {
 
   folders = [];
+  toggleEmpty = true;
+
+  async addNewFolder(folder: Folder) {
+    let res: any = await this.api.addFolder(folder);
+    this.folders.push(res);
+  }
 
   loadFoldersNow() {
     this.folders.splice(0, this.folders.length);
@@ -37,5 +43,5 @@ export class Folder {
     public parentId?: string,
     public _id?: string,
     public isType?: string
-  ) {}
+  ) { }
 }

@@ -104,15 +104,10 @@ export class FolderComponent implements OnInit {
       this.toggleEmpty = !this.toggleEmpty;
     }
     this.folders.splice(0, this.folders.length);
-    this.folders.splice(0, this.folders.length);
     for (let i = 0; i < res.length; i++) {
       const element = res[i];
       JSON.stringify(element);
-      if (element.isType) {
-        this.folders.push(element);
-      } else {
-        this.folders.push(element);
-      }
+      this.folders.push(element); 
     }
     this.togglePlsMns = !this.togglePlsMns;
   }

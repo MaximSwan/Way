@@ -24,14 +24,11 @@ export class AppComponent {
       return alert('Введите название');
     }
         let folder = new Folder(this.folderNameInput);
-        let folderRes = await this.api.addFolder(folder);
-        this.folders.push(folderRes);
-        console.log(folderRes);
+        this.folderService.addNewFolder(folder);
         this.folderNameInput = '';
   }
 
   onRemoveFolder(event) {
-    console.log(event);
     this.folders.splice(this.folders.indexOf(event), 1);
   }
 
