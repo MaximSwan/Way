@@ -8,12 +8,14 @@ export class FolderService {
     private api: ApiService
   ) { }
 
-  foldersChild = [];
   folders = [];
   toggleCheked = true;
 
   updateFolder(dragData, folder: Folder) {
-    return this.api.renameParent(dragData, folder);
+    return this.api.renameParent(dragData, folder)
+      .catch(err => {
+        console.error(err);
+      })
   }
 
   async loadChilds(folder) {
@@ -55,7 +57,6 @@ export class FolderService {
             return;
           }
           this.folders.push(element);
-          console.log(this.folders);
         }
       })
       .catch(err => {
